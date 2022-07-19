@@ -1,0 +1,89 @@
+
+.formContainer {
+  width: 100vw;
+  height: 100vh;
+  background-color: #0B1829;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.form {
+  width: 800px;
+  height: 500px;
+  opacity: .7;
+  text-align: center;
+  background: #001F3D;
+  backdrop-filter: blur(10px);
+  border: 1px solid #66B3FE;
+  box-shadow: 0 0 40px rgba(8,7,16,0.6);
+  color: #66B3FE;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+.label{
+  display: block;
+  text-align: left;
+  margin: 0 auto;
+  margin-top: 30px;
+  width: 80%;
+  font-size: 16px;
+  font-weight: 500;
+}
+.input{
+  display: block;
+  height: 50px;
+  width: 80%;
+  background-color: rgba(255,255,255,0.07);
+  color: #66B3FE;
+  border: none;
+  border-radius: 3px;
+  margin: 0 auto;
+  padding: 0 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 300;
+}
+ .button{
+  margin-top: 50px;
+  width: 80%;
+  border: 1px solid #66B3FE;
+  background-color: #132E4D;
+  color: #66B3FE;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.button :hover {
+  background-color: rgba(255, 255, 255, 0.342);
+  color: #eaf0fb;
+}
+.social{
+margin-top: 30px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.social div{
+width: 300px;
+border-radius: 5px;
+padding: 15px 0px;
+background-color: rgba(255, 255, 255, 0.11);
+color: #a9d4ff;
+text-align: center;
+cursor: pointer;
+}
+.social div:hover{
+background-color: rgba(255, 255, 255, 0.342);
+}
+.social i{
+margin-right: 4px;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+}

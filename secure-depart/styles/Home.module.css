@@ -8,8 +8,8 @@
   justify-content: center;
 }
 .form {
-  width: 800px;
-  height: 500px;
+  width: 700px;
+  height: auto;
   opacity: .7;
   text-align: center;
   background: #001F3D;
@@ -19,6 +19,7 @@
   color: #66B3FE;
   border-radius: 5px;
   box-sizing: border-box;
+  margin: 0 20px;
 }
 .label{
   display: block;
@@ -81,6 +82,19 @@ background-color: rgba(255, 255, 255, 0.342);
 margin-right: 4px;
 }
 
+.login{
+  display: none;
+}
+.head1 {
+  display: block;
+}
+.pointer span {
+  color : white;
+  cursor: pointer;
+}
+.pointer span :hover {
+  color :#66B3FE;
+}
 @media (max-width: 600px) {
   .grid {
     width: 100%;

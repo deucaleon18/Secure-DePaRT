@@ -1,5 +1,6 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import Navbar from "../Components/navbar"
 
 export default function Home() {
 
@@ -11,6 +12,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <img src="Images/Bg.png" alt="" className={styles.Background} />
+      <Navbar/>
       <div className={styles.container}>
       <div className={styles.headlines}>
       <h1>Decentralized Packaging and Return Technology</h1>

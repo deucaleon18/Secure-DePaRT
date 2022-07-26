@@ -17,3 +17,7 @@ a {
   box-sizing: border-box;
 }
 
+:root {
+  --main-color : #F0137D;
+  --text-color : white;
+}

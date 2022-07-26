@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 html,
 body {
   padding: 0;
@@ -8,6 +10,14 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+@font-face {
+  font-family:"EuclidRegular";
+  src:local('EuclidRegular') ,url('../public/fonts/EuclidCircularARegular.ttf');
+}
+@font-face {
+  font-family: "EuclidBold";
+  src: local('EuclidBold'), url('../public/fonts/EuclidCircularASemiBold.ttf');
+}
 a {
   color: inherit;
   text-decoration: none;

@@ -8,13 +8,8 @@
   left: 0;
 }
 .container {
-  color: white;
-  font-family: "Poppins", sans-serif;
   width: 100vw;
   height: 75vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .headlines {
   width: 80%;
@@ -22,8 +17,7 @@
 .headlines button {
   border: none;
   background-color: var(--main-color);
-  width: 250px;
-  height: 39px;
+  
   color: var(--text-color);
   cursor: pointer;
 }

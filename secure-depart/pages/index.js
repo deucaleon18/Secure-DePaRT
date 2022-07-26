@@ -1,9 +1,8 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import Navbar from "../Components/navbar"
+import Navbar from "../Components/navbar";
 
 export default function Home() {
-
   return (
     <div>
       <Head>
@@ -12,14 +11,22 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <img src="Images/Bg.png" alt="" className={styles.Background} />
-      <Navbar/>
-      <div className={styles.container}>
-      <div className={styles.headlines}>
-      <h1>Decentralized Packaging and Return Technology</h1>
-      <h3>Revolutionalizing the future of customer trust.</h3>
-      <button>Connect Wallet</button>
+      <Navbar />
+      <div className={`${styles.container} m-auto`}>
+        <div className={`m-auto ${styles.headlines}`}>
+          <div className="grid grid-cols-4 w-full place-items-center h-[600px]">
+            <div className="flex flex-col col-span-2 gap-4">
+              <div className="text-5xl leading-loose leading-[54px] tracking-wide font-700 text-white">
+                Decentralized Packaging and Return Technology
+              </div>
+              <div className="text-xl font-100 text-gray-200 font-thin">
+                Revolutionalizing the future of customer trust , through hassle free returns.
+              </div>
+              <button className="w-48 h-10 font-100 text-base rounded ">Connect Wallet</button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
   );
 }

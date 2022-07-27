@@ -24,3 +24,6 @@ a {
   --main-color : #F0137D;
   --text-color : white;
 }
+.bg-maunfact{
+  background: url(../public/Images/Bg.png) no-repeat contain/center;
+}

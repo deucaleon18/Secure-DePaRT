@@ -48,7 +48,7 @@ library Structure {
         State productState;
         address customer;
         uint warrantyPeriod;
-        bool warrantyExpire = false;
+        bool warrantyExpire;
         string[] log;
     }
     enum State {
@@ -59,7 +59,5 @@ library Structure {
         ReceivedByDeliveryBoy,
         ReceivedByCustomer,
     }
-    struct ProductHistory {
-        Product[] history;
-    }
+  
 }

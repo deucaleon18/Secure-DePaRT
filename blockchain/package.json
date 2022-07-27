@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "compile":"hardhat compile",
+    "deploy-local":"hardhat run --network localhost scripts/deploy.js"
+  },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",
     "@ethersproject/providers": "^5.4.7",

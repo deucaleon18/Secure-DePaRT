@@ -5,12 +5,12 @@ import "hardhat/console.sol";
 import "./Structure.sol";
 
 contract SecureDePaRT {
-    address owner = msg.sender;                    //This will be the Employe
-    modifier onlyEmploye(){
-        require(msg.sender == owner, "Must be a Employe to call this");
-        _;
-    }
-
+    address public immutable i_owner;                    //This will be the Employe
+   
+   constructor(){
+    i_owner=msg.sender;
+   }
+     
     mapping(address => Structure.Roles) public role;                         //address mapped to roles
     mapping(address => Structure.ManufactureDetails) public manufacture;     //manufacture
     mapping(address => Structure.WarehouseDetails) public warehouse;         //warehouse
@@ -21,11 +21,17 @@ contract SecureDePaRT {
     event ProductsAdded(uint256 _uid, string _productName);
     
     // Used by Employe
-    function addRole(address _address, Structure.Roles _role) public onlyEmploye{
+    function addRole(address _address, Structure.Roles _role) public{
+        require(role[_address]==Structure.Roles.NoRole,"Role has already been assigned");
         role[_address] = _role;
         emit RoleAdded(_address, _role);
     }
-    function addManufacture(uint256 _uid, address _Manufacturer, string memory _manufacturerName, string memory _manufacturerDetails, string memory _location) public onlyEmploye{
+
+    function getRole(address _address) public view returns(Structure.Roles){
+        return role[_address];
+    }
+
+    function addManufacture(uint256 _uid, address _Manufacturer, string memory _manufacturerName, string memory _manufacturerDetails, string memory _location) public {
         manufacture[_Manufacturer] = Structure.ManufactureDetails(_uid, _Manufacturer, _manufacturerName, _manufacturerDetails, _location, block.timestamp);
         emit ManufactureAdded(_uid, _Manufacturer, _manufacturerName);
     }

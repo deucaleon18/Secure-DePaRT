@@ -5,7 +5,7 @@ pragma solidity >=0.7.0 <0.9.0;
 
 library Structure {
     enum Roles {
-        Employe,
+        NoRole,
         Manufacturer,
         Warehouse,
         DeliveryBoy,
@@ -57,7 +57,7 @@ library Structure {
         ReceivedByWarehouse,
         ShippedByWarehouse,
         ReceivedByDeliveryBoy,
-        ReceivedByCustomer,
+        ReceivedByCustomer
     }
   
 }

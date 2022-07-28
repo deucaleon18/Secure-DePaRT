@@ -15,12 +15,12 @@ const Hero = ({img,des,lable,action}) => {
           />
         </div>
 
-        <div className="max-w-[75vw] bg-manufact  relative w-full h-[65vh]   m-auto">
+        <div className="max-w-[75vw] relative w-full h-[65vh]   m-auto">
           <div className="flex z-30  h-full w-full items-center gap-8 flex-col justify-center">
             <div className="text-white leading-loose leading-[54px] font-100 text-center text-5xl">
             {des}
             </div>
-            <Button lable={lable} />
+            <Button lable={lable} action={action} />
           </div>
         </div>
       </div>

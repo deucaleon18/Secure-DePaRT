@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { useMoralis } from "react-moralis";
 import { CONTRACT_ADDRESS } from "../constants";
 import {useRouter} from 'next/router'
+import { runContractFunction } from "../utils/services";
 const AUTH_CONTEXT = React.createContext();
 const ABI = [
   {
@@ -379,7 +380,7 @@ export const Provider = ({ children }) => {
           },
         };
         console.log(_address)
-        let data = await Moralis.executeFunction(options);
+        let data = await runContractFunction("getRole", { _address: _address });
         console.log("Current Role :", data);
         switch(data){
           case 1:
@@ -410,12 +411,14 @@ export const Provider = ({ children }) => {
 
 
   const signIn = async () => {
+
     if (!isAuthenticated) {
       await authenticate({ signingMessage: "Log in using Moralis" })
         .then(function (user) {
           console.log("logged in user:", user);
           console.log(user.get("ethAddress"));
-          getRole(user.get('ethAddress'));
+           getRole(user.get('ethAddress'));
+          //addRole(user.get("ethAddress"),"Manufacturer")
         })
         .catch(function (error) {
           console.log(error);

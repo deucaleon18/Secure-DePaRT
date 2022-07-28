@@ -7,6 +7,7 @@ import QR from "../../Components/QR";
 const WARRANTY_PERIOD=[
   "1 Month","2 Months","6 Months","1 Year","5 Year"
 ]
+
 const Manufacturer = () => {
   const [show,setShow]=React.useState(false);
   const [product,setProduct]=React.useState({})
@@ -36,7 +37,7 @@ const Manufacturer = () => {
           action={(e) => setProduct({ ...product, quantity: e.target.value })}
         />
         <TextBox
-          lable={"Warrant Period"}
+          lable={"Warranty Period"}
           type={"Number"}
           placeholder={"Enter warranty period"}
           action={(e) =>
@@ -62,7 +63,7 @@ const Manufacturer = () => {
         {/* <div className="flex gap-2">
          <div></div>  
         </div> */}
-        <QR/>
+        {/* <QR/> */}
         <button className="bg-primary p-2 text-white font-100 rounded-lg text-base">
           Ship product
         </button>

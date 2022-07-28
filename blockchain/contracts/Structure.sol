@@ -27,6 +27,26 @@ library Structure {
         string warehouseLocation;
     }
 
+    enum State {
+        ShippedByManufacturer,
+        UserReturnInitiated,
+        PackageDamgedAndReturnInitiated,
+        ReceivedByManufacturer,
+        ReceivedByWarehouse,
+        ShippedByWarehouse,
+        PickedByDeliveryBoy,
+        ReceivedByCustomer
+    }
+
+    struct History{
+        State state;
+        uint256 latitude;
+        uint256 longitude;
+        uint256 time;
+        bool returnStatus;
+        string pointName;
+    }
+
     struct Product {
         uint256 uid;
         string productName;
@@ -37,16 +57,9 @@ library Structure {
         uint warrantyPeriod;
         bool warrantyExpire;
         State productState;
-        string[] history;
+        History[] history;
         //string transaction;
     }
-    enum State {
-        Manufactured,
-        ShippedByManufacturer,
-        ReceivedByWarehouse,
-        ShippedByWarehouse,
-        ReceivedByDeliveryBoy,
-        ReceivedByCustomer
-    }
+  
   
 }

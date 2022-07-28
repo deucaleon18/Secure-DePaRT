@@ -26,6 +26,11 @@ library Structure {
         string warehouseManager;
         string warehouseLocation;
     }
+    
+    struct DeliveryDetails {
+        address delivery;
+        
+    }
 
     enum State {
         ShippedByManufacturer,

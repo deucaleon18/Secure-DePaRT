@@ -44,20 +44,20 @@ contract SecureDePaRT {
 
     function addManufacture(
         uint256 _uid,
-        address _Manufacturer,
+        address _address,
         string memory _manufacturerName,
         string memory _manufacturerDetails,
         string memory _location
     ) public {
-        manufacture[_Manufacturer] = Structure.ManufactureDetails(
+        manufacture[_address] = Structure.ManufactureDetails(
             _uid,
-            _Manufacturer,
+            _address,
             _manufacturerName,
             _manufacturerDetails,
             _location,
             block.timestamp
         );
-        emit ManufactureAdded(_uid, _Manufacturer, _manufacturerName);
+        emit ManufactureAdded(_uid, _address, _manufacturerName);
     }
 
     // Used by  Manufacturer

@@ -22,9 +22,9 @@ library Structure {
     }
 
     struct WarehouseDetails {
-        address Warehouse;
-        bytes32 warehouseManager;
-        string WarehouseLocation;
+        address warehouse;
+        string warehouseManager;
+        string warehouseLocation;
     }
 
     struct Product {

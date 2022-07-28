@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { useMoralis } from "react-moralis";
 import { CONTRACT_ADDRESS } from "../constants";
-import {useRouter} from 'next/router'
+import { useRouter } from "next/router";
 import { runContractFunction } from "../utils/services";
 const AUTH_CONTEXT = React.createContext();
 const ABI = [
@@ -342,7 +342,7 @@ const ABI = [
   },
 ];
 export const Provider = ({ children }) => {
-  const router=useRouter();
+  const router = useRouter();
   const {
     authenticate,
     isAuthenticated,
@@ -350,74 +350,58 @@ export const Provider = ({ children }) => {
     user,
     account,
     logout,
-    Moralis
+    Moralis,
   } = useMoralis();
-  const addRole=async (_address,_role)=>{
+  const addRole = async (_address, _role) => {
     try {
-      let options={
-        contractAddress:CONTRACT_ADDRESS,
-        abi:ABI,
-        functionName:'addRole',
-        params:{
-          _address:_address,
-          _role:_role,
-        }
-      }
-      let res=await Moralis.executeFunction(options);
-    } catch (error) {
-      
-    }
-  }
-  const getRole=async (_address)=>{
-
-      try {
-        let options = {
-          contractAddress: CONTRACT_ADDRESS,
-          abi: ABI,
-          functionName: "getRole",
-          params: {
-            _address:_address,
-          },
-        };
-        console.log(_address)
-        let data = await runContractFunction("getRole", { _address: _address });
-        console.log("Current Role :", data);
-        switch(data){
-          case 1:
-            router.push(`/manufacturer/${_address}`);
+      let options = {
+        contractAddress: CONTRACT_ADDRESS,
+        abi: ABI,
+        functionName: "addRole",
+        params: {
+          _address: _address,
+          _role: _role,
+        },
+      };
+      let res = await Moralis.executeFunction(options);
+    } catch (error) {}
+  };
+  const getRole = async (_address) => {
+    try {
+      let data = await runContractFunction("getRole", { _address: _address });
+      console.log("Current Role :", data);
+      switch (data) {
+        case 1:
+          router.push(`/manufacturer/${_address}`);
           break;
-          case 2:
-            router.push(`/warehouse/${_address}`);
-            break;
-          case 3:
-            router.push(`/delivery/${_address}`);
-            break;
-          case 4:
-            router.push(`/customer/${_address}`);
-            break;
-            default:
-              alert('No such role exists!')
-        }
-      } catch (error) {
-        let er={
-          code:error.code,
-          message:error.message
-        }
-        alert(error)
+        case 2:
+          router.push(`/warehouse/${_address}`);
+          break;
+        case 3:
+          router.push(`/delivery/${_address}`);
+          break;
+        case 4:
+          router.push(`/customer/${_address}`);
+          break;
+        default:
+          alert("No such role exists!");
       }
-      
-    
-  }
-
+    } catch (error) {
+      let er = {
+        code: error.code,
+        message: error.message,
+      };
+      alert(error);
+    }
+  };
 
   const signIn = async () => {
-
     if (!isAuthenticated) {
       await authenticate({ signingMessage: "Log in using Moralis" })
         .then(function (user) {
           console.log("logged in user:", user);
           console.log(user.get("ethAddress"));
-           getRole(user.get('ethAddress'));
+          getRole(user.get("ethAddress"));
           //addRole(user.get("ethAddress"),"Manufacturer")
         })
         .catch(function (error) {
@@ -425,16 +409,17 @@ export const Provider = ({ children }) => {
         });
     }
   };
-  const signOut=()=>{
+  const signOut = () => {
     logout();
-    router.replace('/');
-  }
+    router.replace("/");
+  };
   return (
     <>
-      <AUTH_CONTEXT.Provider value={{signIn,signOut}}>{children}</AUTH_CONTEXT.Provider>
+      <AUTH_CONTEXT.Provider value={{ signIn, signOut }}>
+        {children}
+      </AUTH_CONTEXT.Provider>
     </>
   );
 };
-
 
 export default AUTH_CONTEXT;

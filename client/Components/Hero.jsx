@@ -1,7 +1,7 @@
-import React from 'react'
-import Image from 'next/image';
-import Button from './Button';
-const Hero = ({img,des,lable,action}) => {
+import React from "react";
+import Image from "next/image";
+import Button from "./Button";
+const Hero = ({ img, des, lable, action, content }) => {
   return (
     <>
       <div className="w-screen relative flex items-center justify-center h-[85vh]">
@@ -18,14 +18,15 @@ const Hero = ({img,des,lable,action}) => {
         <div className="max-w-[75vw] relative w-full h-[65vh]   m-auto">
           <div className="flex z-30  h-full w-full items-center gap-8 flex-col justify-center">
             <div className="text-white leading-loose leading-[54px] font-100 text-center text-5xl">
-            {des}
+              {des}
             </div>
+            {content && <>{content}</>}
             <Button lable={lable} action={action} />
           </div>
         </div>
       </div>
     </>
   );
-}
+};
 
-export default Hero
+export default Hero;

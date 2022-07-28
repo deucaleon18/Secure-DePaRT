@@ -15,6 +15,8 @@ contract SecureDePaRT {
         require(msg.sender == i_owner, "Must be a Owner to call this");
         _;
     }
+
+
     mapping(address => Structure.Roles) public role; //address mapped to roles
     mapping(address => Structure.ManufactureDetails) public manufacture; //manufacture
     mapping(address => Structure.WarehouseDetails) public warehouse; //warehouse
@@ -42,14 +44,14 @@ contract SecureDePaRT {
         return role[_address];
     }
 
-    function addManufacture(
+    function addManufacturer(
         uint256 _uid,
-        address _Manufacturer,
+        address _address,
         string memory _manufacturerName,
         string memory _manufacturerDetails,
         string memory _location
     ) public {
-        manufacture[_Manufacturer] = Structure.ManufactureDetails(
+        manufacture[_address] = Structure.ManufactureDetails(
             _uid,
             _Manufacturer,
             _manufacturerName,
@@ -61,12 +63,52 @@ contract SecureDePaRT {
     }
 
     // Used by  Manufacturer
-    modifier isManufacture() {
+    modifier isManufacturer() {
         require(
             role[msg.sender] == Structure.Roles.Manufacturer,
             "Must be a Manufacturer to call this"
         );
         _;
+    }
+    
+      // Used by Warehouse
+    modifier isWarehouse() {
+        require(
+            role[msg.sender] == Structure.Roles.Warehouse,
+            "Must be a Warehouse to call this"
+        );
+        _;
+    }
+
+     // Used by Delivery
+    modifier isDelivery() {
+        require(
+            role[msg.sender] == Structure.Roles.DeliveryBoy,
+            "Must be a Delivery Boy to call this"
+        );
+        _;
+    }
+
+       // Used by Customer
+    modifier isCustomer() {
+        require(
+            role[msg.sender] == Structure.Roles.Customer,
+            "Must be a Customer to call this"
+        );
+        _;
+    }
+
+
+    function initiateProductHistory(uint256 _uid,Structure.State _state,uint256 latitude,uint256 longitude,uint256 time,
+    bool returnStatus,string memory pointName) public {
+        products[_uid].history.push(Structure.History(_state,latitude,longitude,time,returnStatus,pointName));
+    }
+
+     function updateProductHistory(uint256 _uid,Structure.State _state,uint256 latitude,uint256 longitude,uint256 time,string memory pointName) public {
+        bool _returnStatus;
+        uint256 len=products[_uid].history.length;
+        _returnStatus=products[_uid].history[len-1].returnStatus;
+        products[_uid].history.push(Structure.History(_state,latitude,longitude,time,_returnStatus,pointName));
     }
 
     function addProducts(
@@ -78,8 +120,10 @@ contract SecureDePaRT {
         address _manufacturer,
         uint _warrantyPeriod,
         bool _warrentyExpire,
-        string memory _history
-    ) public isManufacture {
+        uint256 latitude,
+        uint256 longitude,
+        string memory pointName
+    ) public isManufacturer {
         products[_uid].uid=_uid;
         products[_uid].productName=_productName;
         products[_uid].productPrice=_productPrice;
@@ -88,8 +132,32 @@ contract SecureDePaRT {
         products[_uid].manufacturer=_manufacturer;
         products[_uid].warrantyPeriod=_warrantyPeriod;
         products[_uid].warrantyExpire=_warrentyExpire;
-        products[_uid].history.push(_history);
         products[_uid].productState=Structure.State.ShippedByManufacturer;
+        initiateProductHistory(_uid,Structure.State.ShippedByManufacturer,latitude,longitude,block.timestamp,false,pointName);
         emit ProductsAdded(_uid, _productName);
     }
+   
+    
+    function userReturn(
+        uint256 _uid
+
+    )public isCustomer{
+      uint256 len=products[_uid].history.length;
+      Structure.History memory hist= products[_uid].history[len-1];
+      hist.returnStatus= true;
+      hist.state= Structure.State.UserReturnInitiated;
+      products[_uid].history.push(hist);
+    }
+
+    function packageDamaged(uint256 _uid) public{
+      uint256 len=products[_uid].history.length;
+      Structure.History memory hist= products[_uid].history[len-1];
+      hist.returnStatus= true;
+      hist.state= Structure.State.PackageDamgedAndReturnInitiated;
+      products[_uid].history.push(hist);
+    }
+
+
+
+
 }

@@ -34,22 +34,11 @@ library Structure {
         uint quantity;
         address owner;
         address manufacturer;
-        // WarehouseDetails Warehouse;
-        uint warrantyPeriod;
-        // bool warrantyExpire = false;
-        // State productState;
-        // string[] log;
-        // address customer;
-        // string transaction;
-    }
-    struct Order {
-        string transaction;
-        uint256 productuid;
-        State productState;
-        address customer;
         uint warrantyPeriod;
         bool warrantyExpire;
-        string[] log;
+        State productState;
+        string[] history;
+        //string transaction;
     }
     enum State {
         Manufactured,

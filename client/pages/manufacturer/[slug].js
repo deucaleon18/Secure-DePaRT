@@ -7,6 +7,7 @@ import QR from "../../Components/QR";
 const WARRANTY_PERIOD=[
   "1 Month","2 Months","6 Months","1 Year","5 Year"
 ]
+
 const Manufacturer = () => {
   const [show,setShow]=React.useState(false);
   const [product,setProduct]=React.useState({})

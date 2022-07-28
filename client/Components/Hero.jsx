@@ -20,7 +20,7 @@ const Hero = ({img,des,lable,action}) => {
             <div className="text-white leading-loose leading-[54px] font-100 text-center text-5xl">
             {des}
             </div>
-            <Button lable={lable} />
+            <Button lable={lable} action={action} />
           </div>
         </div>
       </div>

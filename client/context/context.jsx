@@ -351,7 +351,22 @@ export const Provider = ({ children }) => {
     logout,
     Moralis
   } = useMoralis();
-  
+  const addRole=async (_address,_role)=>{
+    try {
+      let options={
+        contractAddress:CONTRACT_ADDRESS,
+        abi:ABI,
+        functionName:'addRole',
+        params:{
+          _address:_address,
+          _role:_role,
+        }
+      }
+      let res=await Moralis.executeFunction(options);
+    } catch (error) {
+      
+    }
+  }
   const getRole=async (_address)=>{
 
       try {

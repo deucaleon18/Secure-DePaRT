@@ -49,7 +49,7 @@ contract SecureDePaRT {
 
 
     // Used by Employee
-    function addRole(address _address, Structure.Roles _role) public onlyOwner{
+    function addRole(address _address, Structure.Roles _role) public{
         require(
             role[_address] == Structure.Roles.NoRole,
             "Role has already been assigned"

@@ -1,6 +1,6 @@
 import {useMoralis} from 'react-moralis'
 import { ABI, CONTRACT_ADDRESS } from '../constants'
-
+import { sha256} from "js-sha256";
 
 
 export const runContractFunction=async (functionName,params)=>{
@@ -22,4 +22,12 @@ export const runContractFunction=async (functionName,params)=>{
         return er;
     }
    
+}
+
+
+// Using SHA-256 generates a Unique ID using user_data as payload
+export const generateUID=(payload)=>{
+   let ab=sha256.create(payload);
+   
+   return ab.hex();
 }

@@ -1,14 +1,30 @@
 import React, { Component } from "react";
 import { useMoralis } from "react-moralis";
-import { CONTRACT_ADDRESS } from "../constants";
+import { CONTRACT_ADDRESS, OWNER } from "../constants";
 import { useRouter } from "next/router";
-import { runContractFunction } from "../utils/services";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+
 const AUTH_CONTEXT = React.createContext();
 const ABI = [
   {
     inputs: [],
     stateMutability: "nonpayable",
     type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
+    name: "DeliveryBoyAdded",
+    type: "event",
   },
   {
     anonymous: false,
@@ -74,6 +90,44 @@ const ABI = [
     type: "event",
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "_warehouseManager",
+        type: "string",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "_warehouseLocation",
+        type: "string",
+      },
+    ],
+    name: "WareHouseAdded",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
+    name: "addDeliveryboy",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -82,7 +136,7 @@ const ABI = [
       },
       {
         internalType: "address",
-        name: "_Manufacturer",
+        name: "_address",
         type: "address",
       },
       {
@@ -101,7 +155,7 @@ const ABI = [
         type: "string",
       },
     ],
-    name: "addManufacture",
+    name: "addManufacturer",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -143,6 +197,26 @@ const ABI = [
         name: "_warrantyPeriod",
         type: "uint256",
       },
+      {
+        internalType: "bool",
+        name: "_warrentyExpire",
+        type: "bool",
+      },
+      {
+        internalType: "uint256",
+        name: "latitude",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "longitude",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "pointName",
+        type: "string",
+      },
     ],
     name: "addProducts",
     outputs: [],
@@ -165,6 +239,48 @@ const ABI = [
     name: "addRole",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "_warehouseManager",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_warehouseLocation",
+        type: "string",
+      },
+    ],
+    name: "addWarehouse",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "delivery",
+    outputs: [
+      {
+        internalType: "address",
+        name: "delivery",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -197,6 +313,49 @@ const ABI = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_uid",
+        type: "uint256",
+      },
+      {
+        internalType: "enum Structure.State",
+        name: "_state",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "latitude",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "longitude",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "time",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "returnStatus",
+        type: "bool",
+      },
+      {
+        internalType: "string",
+        name: "pointName",
+        type: "string",
+      },
+    ],
+    name: "initiateProductHistory",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -247,6 +406,19 @@ const ABI = [
     inputs: [
       {
         internalType: "uint256",
+        name: "_uid",
+        type: "uint256",
+      },
+    ],
+    name: "packageDamaged",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "",
         type: "uint256",
       },
@@ -288,6 +460,16 @@ const ABI = [
         name: "warrantyPeriod",
         type: "uint256",
       },
+      {
+        internalType: "bool",
+        name: "warrantyExpire",
+        type: "bool",
+      },
+      {
+        internalType: "enum Structure.State",
+        name: "productState",
+        type: "uint8",
+      },
     ],
     stateMutability: "view",
     type: "function",
@@ -314,6 +496,57 @@ const ABI = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "_uid",
+        type: "uint256",
+      },
+      {
+        internalType: "enum Structure.State",
+        name: "_state",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "latitude",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "longitude",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "time",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "pointName",
+        type: "string",
+      },
+    ],
+    name: "updateProductHistory",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_uid",
+        type: "uint256",
+      },
+    ],
+    name: "userReturn",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "",
         type: "address",
@@ -323,17 +556,17 @@ const ABI = [
     outputs: [
       {
         internalType: "address",
-        name: "Warehouse",
+        name: "warehouse",
         type: "address",
       },
       {
-        internalType: "bytes32",
+        internalType: "string",
         name: "warehouseManager",
-        type: "bytes32",
+        type: "string",
       },
       {
         internalType: "string",
-        name: "WarehouseLocation",
+        name: "warehouseLocation",
         type: "string",
       },
     ],
@@ -341,7 +574,9 @@ const ABI = [
     type: "function",
   },
 ];
+
 export const Provider = ({ children }) => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const {
     authenticate,
@@ -353,23 +588,58 @@ export const Provider = ({ children }) => {
     Moralis,
   } = useMoralis();
   const addRole = async (_address, _role) => {
+    console.log(_address, _role);
+
+    setLoading(true);
+    let options = {
+      contractAddress: CONTRACT_ADDRESS,
+      abi: ABI,
+      functionName: "addRole",
+      params: {
+        _address: _address,
+        _role: parseInt(_role),
+      },
+    };
+    Moralis.executeFunction(options)
+      .then((data) => console.log("ROLE : ", data))
+      .catch((err) => console.log(err.message))
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+  const updateRoleData = async (_role, payload) => {
     try {
-      let options = {
-        contractAddress: CONTRACT_ADDRESS,
-        abi: ABI,
-        functionName: "addRole",
+       let options = {
+         contractAddress: CONTRACT_ADDRESS,
+         abi: ABI,
+         functionName: `add${_role}`,
         params: {
-          _address: _address,
-          _role: _role,
+          ...payload,
         },
-      };
+       };
+      setLoading(true);
       let res = await Moralis.executeFunction(options);
-    } catch (error) {}
+      console.log(res)
+      toast.success("Role Data Updated!");
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      toast.error(error.message);
+    }
   };
   const getRole = async (_address) => {
+    if (_address == OWNER) {
+      router.push(`/owner/${_address}`);
+      return;
+    }
     try {
-      let data = await runContractFunction("getRole", { _address: _address });
-      console.log("Current Role :", data);
+      let data = await Moralis.executeFunction({
+        ...options,
+        functionName: "getRole",
+        params: {
+          _address: _address,
+        },
+      });
       switch (data) {
         case 1:
           router.push(`/manufacturer/${_address}`);
@@ -391,7 +661,7 @@ export const Provider = ({ children }) => {
         code: error.code,
         message: error.message,
       };
-      alert(error);
+      toast.error(error.message);
     }
   };
 
@@ -415,7 +685,9 @@ export const Provider = ({ children }) => {
   };
   return (
     <>
-      <AUTH_CONTEXT.Provider value={{ signIn, signOut }}>
+      <AUTH_CONTEXT.Provider
+        value={{ signIn, signOut, addRole, updateRoleData, loading }}
+      >
         {children}
       </AUTH_CONTEXT.Provider>
     </>

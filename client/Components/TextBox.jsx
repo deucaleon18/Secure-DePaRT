@@ -18,7 +18,7 @@ export const CustomSelect=({lable,list,action,defaultValue})=>{
 }       
         <select  onChange={action} className=" bg-black p-2 rounded-lg border-2 text-white border-gray-700 outline-none">
           {defaultValue && <option selected disabled >{defaultValue}</option>}
-          {list.map(item=><option key={item} value={item}>{item}</option>)}
+          {list.map((item,index)=><option key={item} value={index+1}>{item}</option>)}
         </select>
       </div>
     </>

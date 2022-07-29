@@ -9,7 +9,8 @@ from matplotlib import pyplot as plt
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 from tensorflow.keras.metrics import Precision, Recall, BinaryAccuracy
-# import joblib
+import joblib
+import keras
 
 
 # Avoid OOM errors by setting GPU Memory Consumption Growth
@@ -92,13 +93,14 @@ class Package:
         print("Model created")
         print("TRAIN =", train,"VAL =", val, "test =", test)
         hist = model.fit(train, epochs=20, validation_data=val)
-        # joblib.dump(hist, 'backend/models/model.joblib')
-        # print("")
+        # joblib.dump(hist, 'backend/models/packageModel.joblib')
+        model.save('backend/models/packageModel.h5')
         
     def evaluate(self):
-        # model = joblib.load('backend/models/model.joblib')
+        # model = joblib.load('backend/models/packageModel.joblib')
+        model = keras.models.load_model('backend/models/packageModel.h5')
         batch=self.get_dataset()
-        model=self.get_model()
+        # model=self.get_model()
         pre = Precision()
         re = Recall()
         acc = BinaryAccuracy()
@@ -111,11 +113,12 @@ class Package:
             print(pre.result(), re.result(), acc.result())
 
     def predict(self):
-        img = cv2.imread('backend/models/image3.jpg')
+        img = cv2.imread('backend/models/image14.jpeg')
         print("IMG=",img)
         resize = tf.image.resize(img, (256,256))
-        model=self.get_model()
-        # model = joblib.load('backend/models/model.joblib')
+        # model=self.get_model()
+        # model = joblib.load('backend/models/packageModel.joblib')
+        model = keras.models.load_model('backend/models/packageModel.h5')
         yhat = model.predict(np.expand_dims(resize/255, 0))
         print("YHAT=",type(yhat))
         temp = 0
@@ -124,7 +127,7 @@ class Package:
             print(temp)
         if temp > 0.5: 
             print(f'Predicted class is Intact')
-            # return "True"
+            return True
         else:
             print(f'Predicted class is Damaged')
-            # return False
+            return False

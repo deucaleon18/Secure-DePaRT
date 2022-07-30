@@ -1,10 +1,9 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { useMoralis} from "react-moralis";
 import Image from "next/image";
 
 export default function Home() {
-  const {logout}=useMoralis()
+  
   return (
     <div>
       <Head>
@@ -32,7 +31,7 @@ export default function Home() {
               </div>
               <button
                 className="w-48 h-10 font-100 text-base rounded "
-                onClick={logout}
+                // onClick={logout}
               >
                 Connect Wallet
               </button>

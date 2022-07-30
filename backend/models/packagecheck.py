@@ -113,7 +113,7 @@ class Package:
             print(pre.result(), re.result(), acc.result())
 
     def predict(self):
-        img = cv2.imread('backend/models/image14.jpeg')
+        img = cv2.imread('backend/models/shashank.jpeg')
         print("IMG=",img)
         resize = tf.image.resize(img, (256,256))
         # model=self.get_model()

@@ -13,7 +13,7 @@ library Structure {
     }
 
     struct ManufactureDetails {
-        uint256 uid;
+        string uid;
         address Manufacturer;
         string manufacturerName;
         string manufacturerDetails;
@@ -53,7 +53,7 @@ library Structure {
     }
 
     struct Product {
-        uint256 uid;
+        string uid;
         string productName;
         uint256 productPrice;
         uint quantity;

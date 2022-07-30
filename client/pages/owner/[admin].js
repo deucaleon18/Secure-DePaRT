@@ -23,7 +23,7 @@ const Admin = () => {
     e.preventDefault();
     let _uid=generateUID(roles);
     const {_role,...rest}=roles;
-    updateRoleData({
+    updateRoleData(_role,{
        _uid:_uid,
        ...rest
     })

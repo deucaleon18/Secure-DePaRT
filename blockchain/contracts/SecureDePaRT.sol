@@ -22,7 +22,7 @@ contract SecureDePaRT {
     mapping(address => Structure.ManufactureDetails) public manufacture; //manufacture
     mapping(address => Structure.WarehouseDetails) public warehouse; //warehouse
     mapping(address => Structure.DeliveryDetails) public delivery; //delivery
-    mapping(uint256 => Structure.Product) public products; //products to be added by Employe
+    mapping(string => Structure.Product) public products; //products to be added by Employe
 
 
 
@@ -30,7 +30,7 @@ contract SecureDePaRT {
     //events description
     event RoleAdded(address _address, Structure.Roles _role);
     event ManufactureAdded(
-        uint256 _uid,
+        string _uid,
         address _address,
         string _manufactureName
     );
@@ -42,7 +42,7 @@ contract SecureDePaRT {
     event DeliveryBoyAdded(
         address _address
     );
-    event ProductsAdded(uint256 _uid, string _productName);
+    event ProductsAdded(string _uid, string _productName);
 
 
 
@@ -65,7 +65,7 @@ contract SecureDePaRT {
 
     //Used to add manufacturer 
     function addManufacturer(
-        uint256 _uid,
+        string memory _uid,
         address _address,
         string memory _manufacturerName,
         string memory _manufacturerDetails,
@@ -157,13 +157,13 @@ contract SecureDePaRT {
     }
 
     //function to initiate product history 
-    function initiateProductHistory(uint256 _uid,Structure.State _state,uint256 latitude,uint256 longitude,uint256 time,
+    function initiateProductHistory(string memory _uid,Structure.State _state,uint256 latitude,uint256 longitude,uint256 time,
     bool returnStatus,string memory pointName) public isManufacturer {
         products[_uid].history.push(Structure.History(_state,latitude,longitude,time,returnStatus,pointName));
     }
 
     //function to update product history 
-    function updateProductHistory(uint256 _uid,Structure.State _state,uint256 latitude,
+    function updateProductHistory(string memory _uid,Structure.State _state,uint256 latitude,
     uint256 longitude,uint256 time,string memory pointName) 
     public isWarehouseOrDelivery{
         bool _returnStatus;
@@ -175,7 +175,7 @@ contract SecureDePaRT {
 
     //function to add products 
     function addProducts(
-        uint256 _uid,
+        string memory _uid,
         string memory _productName,
         uint256 _productPrice,
         uint _quantity,
@@ -202,7 +202,7 @@ contract SecureDePaRT {
    
     //function to return products from user side
     function userReturn(
-        uint256 _uid
+        string memory _uid
     )public isCustomer{
       uint256 len=products[_uid].history.length;
       Structure.History memory hist= products[_uid].history[len-1];
@@ -213,7 +213,7 @@ contract SecureDePaRT {
 
 
     //function to return product if damaged at any stage 
-    function packageDamaged(uint256 _uid) public isWarehouseOrDelivery{
+    function packageDamaged(string memory _uid) public isWarehouseOrDelivery{
       uint256 len=products[_uid].history.length;
       Structure.History memory hist= products[_uid].history[len-1];
       hist.returnStatus= true;

@@ -6,10 +6,6 @@ import Footer from "../Components/Footer";
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <MoralisProvider
-        appId={`${process.env.NEXT_PUBLIC_APP_ID}`}
-        serverUrl={`${process.env.NEXT_PUBLIC_SERVER_URL}`}
-      >
         <Provider>
           <div className="">
             <Navbar />
@@ -20,7 +16,6 @@ function MyApp({ Component, pageProps }) {
             
           </div>
         </Provider>
-      </MoralisProvider>
     </>
   );
 }

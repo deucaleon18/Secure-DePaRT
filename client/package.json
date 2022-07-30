@@ -24,6 +24,7 @@
     "react-qr-scanner": "^1.0.0-alpha.8",
     "react-spinners": "^0.13.3",
     "react-toastify": "^9.0.7",
+    "react-webcam": "^7.0.1",
     "web3": "^1.7.4"
   },
   "devDependencies": {

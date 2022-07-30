@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { useMoralis } from "react-moralis";
 import { CONTRACT_ADDRESS, OWNER } from "../constants";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
+import Web3 from 'web3'
+import { useEffect } from "react";
 
 const AUTH_CONTEXT = React.createContext();
 const ABI = [
@@ -578,47 +579,57 @@ const ABI = [
 export const Provider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const {
-    authenticate,
-    isAuthenticated,
-    isAuthenticating,
-    user,
-    account,
-    logout,
-    Moralis,
-  } = useMoralis();
+  const [provider,setProvider]=useState();
+  const [users,setUsers]=useState()
+  // const [signer,setSigner]=useState();
+  // const[contract,setContract]=useState()
+
   const addRole = async (_address, _role) => {
     console.log(_address, _role);
-
     setLoading(true);
-    let options = {
-      contractAddress: CONTRACT_ADDRESS,
-      abi: ABI,
-      functionName: "addRole",
-      params: {
-        _address: _address,
-        _role: parseInt(_role),
-      },
-    };
-    Moralis.executeFunction(options)
+    let p = new Web3(Web3.givenProvider || "http://localhost:8545");
+    let contract = new p.eth.Contract(ABI, CONTRACT_ADDRESS);
+    const accounts = await p.eth.requestAccounts();
+    await contract.methods
+      .addRole(_address, _role)
+      .send({ from: accounts[0] })
       .then((data) => console.log("ROLE : ", data))
       .catch((err) => console.log(err.message))
       .finally(() => {
         setLoading(false);
-      });
-  };
+     });
+
+    // let options = {
+    //   contractAddress: CONTRACT_ADDRESS,
+    //   abi: ABI,
+    //   functionName: "addRole",
+    //   params: {
+    //     _address: _address,
+    //     _role: parseInt(_role),
+    //   },
+    // };
+    // Moralis.executeFunction(options)
+    //   .then((data) => console.log("ROLE : ", data))
+    //   .catch((err) => console.log(err.message))
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
+  };;
+
+
   const updateRoleData = async (_role, payload) => {
     try {
-       let options = {
-         contractAddress: CONTRACT_ADDRESS,
-         abi: ABI,
-         functionName: `add${_role}`,
-        params: {
-          ...payload,
-        },
-       };
-      setLoading(true);
-      let res = await Moralis.executeFunction(options);
+ 
+      //  let options = {
+      //    contractAddress: CONTRACT_ADDRESS,
+      //    abi: ABI,
+      //    functionName: `add${_role}`,
+      //   params: {
+      //     ...payload,
+      //   },
+      //  };
+      // setLoading(true);
+      // let res = await Moralis.executeFunction(options);
       console.log(res)
       toast.success("Role Data Updated!");
       setLoading(false);
@@ -627,8 +638,11 @@ export const Provider = ({ children }) => {
       toast.error(error.message);
     }
   };
+
+
   const getRole = async (_address) => {
-    if (_address == OWNER) {
+
+    if (_address[0] == OWNER) {
       router.push(`/owner/${_address}`);
       return;
     }
@@ -665,24 +679,33 @@ export const Provider = ({ children }) => {
     }
   };
 
+
+
   const signIn = async () => {
-    if (!isAuthenticated) {
-      await authenticate({ signingMessage: "Log in using Moralis" })
-        .then(function (user) {
-          console.log("logged in user:", user);
-          console.log(user.get("ethAddress"));
-          getRole(user.get("ethAddress"));
-          //addRole(user.get("ethAddress"),"Manufacturer")
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    let p = new Web3(Web3.givenProvider || "http://localhost:8545");
+    const accounts = await p.eth.requestAccounts();
+    const networkID = await p.eth.net.getId();
+    try {
+      let contract = new p.eth.Contract(ABI, CONTRACT_ADDRESS);
+      console.log(contract);
+    } catch (err) {
+      console.error(err);
     }
+
+    getRole(accounts);
+    setProvider(p)
+    // console.log("fff");
   };
+
+
   const signOut = () => {
-    logout();
+
     router.replace("/");
   };
+
+
+
+
   return (
     <>
       <AUTH_CONTEXT.Provider

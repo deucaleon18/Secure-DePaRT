@@ -5,5 +5,6 @@ from . import views
 # from .views import *
 
 urlpatterns = [
-    path('', views.checkView, name='check')
+    path('packagePredict/', views.packageView, name='packagePredict'),
+    path('productPredict/', views.productView, name='productPredict'),
 ]

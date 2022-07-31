@@ -113,9 +113,14 @@ Solidity Smart Contracts have been used to assign roles, log products and change
 ## Installation and Setup
 Prerequisites : `yarn, git, docker(optional)`
 
-Clone the repository 
+### Clone the repository 
 ```
-git clone https://github.com/deucaleon18/Secure-DePaRT.git && cd blockchain
+git clone https://github.com/deucaleon18/Secure-DePaRT.git
+```
+### Setup `blockchain`
+Change the directory to backend
+```
+cd blockchain
 ```
 Install dependencies
 ```
@@ -130,12 +135,12 @@ Open a second terminal to deploy the smart contracts
 yarn deploy-local
 ```
 
-
+### Setup `client`
 Open a third terminal and enter the client folder
 ```
 cd client
 ```
-Install all packages in the package.json file
+Install dependencies
 ```
 yarn
 ```
@@ -146,19 +151,22 @@ yarn dev
 The app gets hosted by default at port 3000.
 
 
-### Backend Setup :
-
- -  Change the directory by typing `cd backend` in the terminal and then follow the steps mentioned inside the backend folder.
+### Setup `backend`
+Change the directory by typing `cd backend` in the terminal and then follow the steps mentioned inside the [backend](backend) folder.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## License
 This project uses an [MIT](https://opensource.org/licenses/MIT) license.
-## Documentation to help with Solidity
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## More information
+- Documentation to help with Solidity
 https://docs.soliditylang.org/en/v0.8.4/
-## Documentation to help with React
+- Documentation to help with React
 https://reactjs.org/docs/getting-started.html
-## Documentation to help with Hardhat
+- Documentation to help with Hardhat
 https://hardhat.org/docs
-## Documentation to help with Web3.js
+- Documentation to help with Web3.js
 https://web3js.readthedocs.io/en/v1.7.4/
+<p align="right">(<a href="#top">back to top</a>)</p>

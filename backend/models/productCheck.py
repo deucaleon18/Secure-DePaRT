@@ -19,7 +19,7 @@ import keras
 #     tf.config.experimental.set_memory_growth(gpu, True)
 
 import sys
-data_dir = "backend/models/data-mobile"
+data_dir = "backend/models/mobile"
 # data_dir = str(os.path.join(sys.path[0], "data"))
 
 class Package:

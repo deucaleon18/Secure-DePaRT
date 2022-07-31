@@ -29,6 +29,15 @@ export const initiateReturn = async (payload) => {
   }
 };
 
+export const getProducts=async(payload)=>{
+   try {
+    const accounts = await web3Provider.eth.getAccounts();
+    
+   await Contract.methods.getProducts(payload).call().then(data=>console.log(data)).catch(err=>console.log(err))
+   } catch (error) {
+    console.log(error)
+   }
+}
 
 export const initiateCustomerReturn=async (payload)=>{
     try {

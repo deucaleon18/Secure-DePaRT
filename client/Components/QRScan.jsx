@@ -4,7 +4,7 @@ import {QrReader} from 'react-qr-reader'
 // import axios from 'axios'
 
 
-function QRScanner({setData}) {
+function QRScanner({setData,data}) {
     
 
    
@@ -36,19 +36,19 @@ function QRScanner({setData}) {
     
     return (
       <div>
-        <QrReader
-          onResult={(result, error) => {
-            if (!!result) {
-              setData(result?.text);
-              console.log(result)
-            }
+    {!data && <QrReader
+        onResult={(result, error) => {
+        if (!!result) {
+            setData(result?.text);
+            console.log(result)
+        }
 
-            if (!!error) {
-              console.info(error);
-            }
-          }}
-          style={{ width: "100%" }}
-        />
+        if (!!error) {
+            console.info(error);
+        }
+        }}
+        style={{ width: "100%" }}
+    />}
       </div>
     );
   }

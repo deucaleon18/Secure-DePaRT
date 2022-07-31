@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Hero from "../../Components/Hero";
 import QRScanner from "../../Components/QRScan";
 import SideModal from "../../Components/SideModal";
+import { getProducts } from "../../services/productServices";
 
 const Customer = () => {
   const [qr, setQr] = useState(false);
@@ -23,11 +24,23 @@ const Customer = () => {
               Scan QR
             </button>
           </div>
-          {qr && !product && <QRScanner setData={setProduct} />}
+          {qr && <QRScanner data={product} setData={setProduct} />}
         </>
       )}
     </>
   );
+
+  useEffect(() => {
+    if(!show){
+      setQr(false)
+    }
+  }, [show])
+   
+  useEffect(()=>{
+     if(product){
+      getProducts(product);
+     }
+  },[product])
 
   return (
     <>

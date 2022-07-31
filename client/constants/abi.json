@@ -277,6 +277,109 @@
   {
     "inputs": [
       {
+        "internalType": "string",
+        "name": "_uid",
+        "type": "string"
+      }
+    ],
+    "name": "getProducts",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "uid",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "productName",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "productPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "quantity",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "manufacturer",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "warrantyPeriod",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "warrantyExpire",
+            "type": "bool"
+          },
+          {
+            "internalType": "enum Structure.State",
+            "name": "productState",
+            "type": "uint8"
+          },
+          {
+            "components": [
+              {
+                "internalType": "enum Structure.State",
+                "name": "state",
+                "type": "uint8"
+              },
+              {
+                "internalType": "uint256",
+                "name": "latitude",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "longitude",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "time",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bool",
+                "name": "returnStatus",
+                "type": "bool"
+              },
+              {
+                "internalType": "string",
+                "name": "pointName",
+                "type": "string"
+              }
+            ],
+            "internalType": "struct Structure.History[]",
+            "name": "history",
+            "type": "tuple[]"
+          }
+        ],
+        "internalType": "struct Structure.Product",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "_address",
         "type": "address"

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Hero from "../../Components/Hero";
 import SideModal from "../../Components/SideModal";
+import {toast,ToastContainer} from 'react-toastify'
 import Webcam from "react-webcam";
 import QRScanner from "../../Components/QRScan";
 import { checkInProduct, packageCheck } from "../../services/productServices";
@@ -16,13 +17,16 @@ const WareHouse = () => {
       name: "product_scan",
       image: payload,
     });
-    if (res) {
+    if (res!="False") {
+      toast.success('Package not damaged')
       let response = {
         _state: 5,
         _uid: product,
         pointName: "WareHouse",
       };
       checkInProduct(response)
+    }else{
+      toast.error('Damaged Package')
     }
   };
   const videoConstraints = {
@@ -74,7 +78,7 @@ const WareHouse = () => {
                 </button>
               )}
             </Webcam>
-          <button disabled={image?false:true} onClick={()=>checkInProduct(image)}  className="w-full h-10 font-100 disabled:border-gray-400 disabled:text-gray-400 disabled:hover:bg-transparent border-primary border-2 text-primary hover:bg-primary hover:text-white rounded">
+          <button disabled={image?false:true} onClick={()=>checkIn(image)}  className="w-full h-10 font-100 disabled:border-gray-400 disabled:text-gray-400 disabled:hover:bg-transparent border-primary border-2 text-primary hover:bg-primary hover:text-white rounded">
             Update Product Status
           </button>
           </div>
@@ -96,6 +100,7 @@ const WareHouse = () => {
         setShow={setShow}
         title={"Check-In Product"}
       />}
+      <ToastContainer/>
     </>
   );
 };

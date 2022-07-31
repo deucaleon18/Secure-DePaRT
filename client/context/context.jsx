@@ -63,6 +63,7 @@ export const Provider = ({ children }) => {
 
   const signOut = () => {
     localStorage.removeItem('user')
+    setUser();
     router.replace("/");
   };
 
@@ -75,7 +76,7 @@ export const Provider = ({ children }) => {
   
   return (
     <>
-      <AUTH_CONTEXT.Provider value={{ signIn,user, signOut, loading }}>
+      <AUTH_CONTEXT.Provider value={{ signIn,user, signOut, user}}>
         {children}
       </AUTH_CONTEXT.Provider>
     </>

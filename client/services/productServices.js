@@ -49,17 +49,18 @@ export const initiateCustomerReturn=async (payload)=>{
 }
 
 export const packageCheck=async(payload)=>{
-    return true;
    try {
     let body=JSON.stringify(payload)
-     let res=await fetch(BASE_URL,{
+     let res=await fetch("http://localhost:8000/packagePredict/",{
         method:"POST",
         body:body,
         headers:{
             "Content-Type":"application/json",
         }
      })
-     let result= await res.json();
+     ;
+     let result=await res.json();
+     console.log(result)
      return result;
    } catch (error) {
      console.log(error);

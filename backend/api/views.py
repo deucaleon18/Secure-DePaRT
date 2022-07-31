@@ -51,7 +51,7 @@ def packageView(request):
         print("Image Loaded")
         resize = tf.image.resize(img, (256,256))
         model = keras.models.load_model('api/packageModel.h5')
-        print("Model Loaded")
+        print("Package Model Loaded")
         yhat = model.predict(np.expand_dims(resize/255, 0))
         print("YHAT=",type(yhat))
         temp = 0
@@ -66,10 +66,10 @@ def packageView(request):
             print(f'Predicted class is Damaged')
             # return HttpResponse("False")
             value = "False"
-        return HttpResponse(value)
+        return Response(value)
         
 
-
+@api_view(['GET','POST'])
 def productView(request):
 
     # # Click picture from camera
@@ -82,29 +82,44 @@ def productView(request):
     # videoCaptureObject.release()
     # cv2.destroyAllWindows()
 
-    print("ENTER")
-    print(os.listdir())
-    img = cv2.imread('media/packages/NewPicture.jpg')
-    print("Image Loaded")
-    resize = tf.image.resize(img, (256,256))
-    model = keras.models.load_model('api/productModel.h5')
-    print("Model Loaded")
-    yhat = model.predict(np.expand_dims(resize/255, 0))
-    print("YHAT=",type(yhat))
-    temp = 0
-    for i in yhat:
-        temp = i[0]
-        print(temp)
-    if temp > 0.5: 
-        print(f'Predicted class is Intact')
-        # return HttpResponse("True")
-        value = "True"
-    else:
-        print(f'Predicted class is Damaged')
-        # return HttpResponse("False")
-        value = "False"
+    if request.method == 'GET':
+        packages = ProductModel.objects.all()
+        serializer = ProductSerializer(packages, many=True)
+        print("SERIALIZER=",serializer.data)
+        return Response(serializer.data)
+    if request.method == 'POST':
+        serializer = ProductSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        print("SERIALIZER=",serializer.data)
+        temp = serializer.data['image']
+        location = temp[1:]
 
-    return HttpResponse(value)
+        # ML Model
+        print("ENTER")
+        # img = cv2.imread('models/images3.jpeg')
+        print(os.listdir())
+        img = cv2.imread(location)
+        print(location)
+        print("Image Loaded")
+        resize = tf.image.resize(img, (256,256))
+        model = keras.models.load_model('api/productModel.h5')
+        print("Product Model Loaded")
+        yhat = model.predict(np.expand_dims(resize/255, 0))
+        print("YHAT=",type(yhat))
+        temp = 0
+        for i in yhat:
+            temp = i[0]
+            print(temp)
+        if temp > 0.5: 
+            print(f'Predicted class is Intact')
+            # return HttpResponse("True")
+            value = "True"
+        else:
+            print(f'Predicted class is Damaged')
+            # return HttpResponse("False")
+            value = "False"
+        return Response(value)
 
 
 

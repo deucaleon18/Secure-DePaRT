@@ -24,7 +24,7 @@ export default function Navbar() {
                 Connect Wallet
               </button>
             ) : (
-              <button className="w-36 text-primary hover:bg-primary hover:text-white text-base border-2 h-10 bg-transparent  font-100 border-primary rounded">
+              <button onClick={signOut} className="w-36 text-primary hover:bg-primary hover:text-white text-base border-2 h-10 bg-transparent  font-100 border-primary rounded">
                 Log out
               </button>
             )}

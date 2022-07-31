@@ -7,7 +7,9 @@ import SideModal from "../../Components/SideModal";
 import TextBox, { CustomSelect } from "../../Components/TextBox";
 import { OWNER } from '../../constants';
 import AUTH_CONTEXT from '../../context/context';
+import { addRoles } from '../../services/adminServices';
 import {generateUID} from '../../utils/services'
+import { updateRoledata } from '../../services/adminServices';
 const ROLES=[
   "Manufacturer",
   "Warehouse",
@@ -18,12 +20,12 @@ const Admin = () => {
   const [show,setShow]=React.useState(false);
   const [roles,setRoles]=React.useState({});
   const router=useRouter();
-  const {addRole,updateRoleData,loading}=useContext(AUTH_CONTEXT)
+  const {loading}=useContext(AUTH_CONTEXT)
   const handleSubmit=(e)=>{
     e.preventDefault();
     let _uid=generateUID(roles);
     const {_role,...rest}=roles;
-    updateRoleData(_role,{
+    updateRoledata(_role,{
        _uid:_uid,
        ...rest
     })
@@ -97,7 +99,7 @@ const Admin = () => {
   );
   const validate=()=>{
     if(roles._address && roles._role){
-      addRole(roles._address,roles._role);
+      addRoles(roles._address,roles._role);
       setShow(true);
 
     }else{

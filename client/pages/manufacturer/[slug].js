@@ -5,6 +5,7 @@ import TextBox, { CustomSelect } from "../../Components/TextBox";
 import QR from "../../Components/QR";
 import { generateUID } from "../../utils/services";
 import AUTH_CONTEXT from "../../context/context";
+import { addProductServices } from "../../services/manufacturerServices";
 
 const WARRANTY_PERIOD=[
   "1 Month","2 Months","6 Months","1 Year","5 Year"
@@ -13,26 +14,29 @@ const WARRANTY_PERIOD=[
 const Manufacturer = () => {
   const [show,setShow]=React.useState(false);
   const [product,setProduct]=React.useState({})
+  const [qr,setQr]=React.useState({show:false,code:""});
   const ref=React.useRef(null)
-  const {addProductService}=useContext(AUTH_CONTEXT);
+  
   const handleAddProduct=(e)=>{
       e.preventDefault();
       let uid=generateUID(product);
       
-      addProductService({
+      addProductServices({
         _uid:uid,
         ...product
+      })
+      setQr({
+        show:true,
+        code:uid
       })
   }
   const addProduct = (
     <>
-      <div className="flex flex-col gap-4 ">
+     {!qr.show  && <div className="flex flex-col gap-4 ">
         <TextBox
           lable={"Owner's Address"}
           placeholder={"Enter owner address"}
-          action={(e) =>
-            setProduct({ ...product,_owner: e.target.value })
-          }
+          action={(e) => setProduct({ ...product, _owner: e.target.value })}
         />
         <TextBox
           lable={"Product Name"}
@@ -53,7 +57,9 @@ const Manufacturer = () => {
           lable={"Quantity"}
           type={"Number"}
           placeholder={"Enter product quantity"}
-          action={(e) => setProduct({ ...product, quantity: parseInt(e.target.value) })}
+          action={(e) =>
+            setProduct({ ...product, quantity: parseInt(e.target.value) })
+          }
         />
         <TextBox
           lable={"Warranty Period"}
@@ -63,7 +69,6 @@ const Manufacturer = () => {
             setProduct({ ...product, warrantyPeriod: parseInt(e.target.value) })
           }
         />
-       
 
         <input
           ref={ref}
@@ -73,17 +78,21 @@ const Manufacturer = () => {
           }
           type={"file"}
         />
-        {/* <div className="flex gap-2">
-         <div></div>  
-        </div> */}
-        {/* <QR/> */}
+
         <button
           onClick={handleAddProduct}
           className="bg-primary p-2 text-white font-100 rounded-lg text-base"
         >
           Ship product
         </button>
-      </div>
+      </div>}
+      {qr.show && (
+        <>
+          <div className="flex w-full items-center justify-center">
+            <QR show={qr.show} payload={qr.code} />
+          </div>
+        </>
+      )}
     </>
   );
 

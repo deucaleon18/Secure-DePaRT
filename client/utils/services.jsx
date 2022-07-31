@@ -38,12 +38,26 @@ export const executeFunction = async (functionName, params) => {
 export const createContract = async (payload) => {};
 
 export const addProductService = async (payload) => {
+  let lat, long;
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        lat = position.coords.latitude;
+        long = position.coords.longitude;
+      },
+      (err) => {
+        alert(err);
+        return;
+      }
+    );
+  }
   const provider = new Web3(Web3.givenProvider || "http://localhost:8545");
   const accounts = await provider.eth.requestAccounts();
   const contract = new provider.eth.Contract(abi, CONTRACT_ADDRESS, {
     from: accounts[0],
   });
-  console.log(accounts,contract,provider)
+  console.log(accounts, contract, provider);
+
   const {
     _uid,
     _productName,
@@ -52,18 +66,22 @@ export const addProductService = async (payload) => {
     _owner,
     _warrantyPeriod,
   } = payload;
-  let res = await contract.methods.addProducts(
-    _uid,
-    _productName,
-    _productPrice,
-    _quantity,
-    _owner,
-    accounts[0],
-    _warrantyPeriod,
-    0,
-    20,80,"Product Shipped By Manufacturer"
-  ).send({from:accounts[0]});
-  console.log(res)
+  let res = await contract.methods
+    .addProducts(
+      _uid,
+      _productName,
+      _productPrice,
+      _quantity,
+      _owner,
+      accounts[0],
+      _warrantyPeriod,
+      0,
+      lat,
+      long,
+      "Product Shipped By Manufacturer"
+    )
+    .send({ from: accounts[0] });
+  console.log(res);
 };
 // Using SHA-256 generates a Unique ID using user_data as payload
 export const generateUID = (payload) => {

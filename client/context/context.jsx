@@ -8,22 +8,21 @@ import Web3 from 'web3'
 import { useEffect } from "react";
 import { executeFunction } from "../utils/services";
 import ABI from '../constants/abi.json'
+import { addProductServices, updateManufacturerData } from "../services/manufacturerServices";
+import { updateWareHouseData } from "../services/wareHouseServices";
 const AUTH_CONTEXT = React.createContext();
 
-
+export const web3Provider = new Web3(Web3.givenProvider || "http://localhost:8545");
+export const Contract=new web3Provider.eth.Contract(ABI,CONTRACT_ADDRESS)
 export const Provider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [users,setUsers]=useState()
-  const [contractInstance,setContractInstance]=useState();
-  // const [signer,setSigner]=useState();
-  const provider = new Web3(Web3.givenProvider || "http://localhost:8545");
-  // const[contract,setContract]=useState()
+
   const addRole = async (_address, _role) => {
     console.log(_address, _role);
     setLoading(true);
-    const accounts = await provider.eth.requestAccounts();
-     let contract = new provider.eth.Contract(ABI, CONTRACT_ADDRESS,{from:accounts[0]});
+    const accounts = await web3Provider.eth.requestAccounts();
+     let contract = new web3Provider.eth.Contract(ABI, CONTRACT_ADDRESS,{from:accounts[0]});
     await contract.methods
       .addRole(_address, _role)
       .send({ from: accounts[0] })
@@ -37,53 +36,16 @@ export const Provider = ({ children }) => {
 
 
   const updateRoleData = async (_role, payload) => {
-    console.log(_role,payload)
-    console.log(typeof(_role))
+    // console.log(_role,payload)
+    // console.log(typeof(_role))
     try {
- 
-      //  let options = {
-      //    contractAddress: CONTRACT_ADDRESS,
-      //    abi: ABI,
-      //    functionName: `add${_role}`,
-      //   params: {
-      //     ...payload,
-      //   },
-      //  };
-      // setLoading(true);
-      // let res = await Moralis.executeFunction(options);
-      const accounts = await provider.eth.requestAccounts();
-      console.log(accounts)
-      let contract = new provider.eth.Contract(ABI, CONTRACT_ADDRESS, {
-        from: accounts[0],
-      });
-      console.log(contract)
-      console.log(payload)
-      
-      let { _uid, _manufacturerName, _manufacturerDetails, _location,_address,_wareHouse ,_wareHouseLocation } = payload;
+      // console.log(payload)
        switch(_role){
           case "1":
-            await contract.methods.addManufacturer(_uid,_address,_manufacturerName,_manufacturerDetails,_location)
-              .send({ from: accounts[0] })
-              .then((data) => console.log("added : ", data))
-              .catch((err) => console.log(err.message))
-              .finally(() => {
-                setLoading(false);
-              });
-       
+          await updateManufacturerData(payload)
          break;
          case "2":
-          await contract.methods
-            .addWarehouse(
-              _address,
-              _wareHouse,
-              _wareHouseLocation
-            )
-            .send({ from: accounts[0] })
-            .then((data) => console.log("added : ", data))
-            .catch((err) => console.log(err.message))
-            .finally(() => {
-              setLoading(false);
-            });
+          await updateWareHouseData(payload)
           break;
           default:
             console.log("error")
@@ -105,8 +67,8 @@ export const Provider = ({ children }) => {
       return;
     }
     try {
-       let contract = new provider.eth.Contract(ABI, CONTRACT_ADDRESS);
-      let data=await contract.methods.getRole(_address).call();
+      //  let contract = new web3Provider.eth.Contract(ABI, CONTRACT_ADDRESS);
+      let data=await Contract.methods.getRole(_address).call();
       console.log(data) 
       switch (data) {
         case "1":
@@ -134,46 +96,41 @@ export const Provider = ({ children }) => {
   };
 
 const addProductService = async (payload) => {
-  const accounts = await provider.eth.requestAccounts();
-  const contract = new provider.eth.Contract(ABI, CONTRACT_ADDRESS, {
-    from: accounts[0]
-  });
-  console.log(accounts, contract, provider,payload);
+  await addProductServices(payload)
+  // const accounts = await web3Provider.eth.requestAccounts();
+  // const contract = new web3Provider.eth.Contract(ABI, CONTRACT_ADDRESS, {
+  //   from: accounts[0]
+  // });
+  // console.log(accounts, contract, provider,payload);
 
-  const {
-    _uid,
-    productName,
-    productPrice,
-    quantity,
-    _owner,
-    warrantyPeriod,
-  } = payload;
-  console.log(contract.methods.addProducts)
-  await contract.methods.addProducts(
-      _uid,
-      productName,
-      productPrice,
-      quantity,
-      _owner,
-      accounts[0],
-      warrantyPeriod,
-      false,
-      20,
-      80,
-      "Product Shipped By Manufacturer"
-    ).send({ from:accounts[0]}).then((data)=>console.log(data)).catch(err=>console.log(err));
+  // const {
+  //   _uid,
+  //   productName,
+  //   productPrice,
+  //   quantity,
+  //   _owner,
+  //   warrantyPeriod,
+  // } = payload;
+  // console.log(contract.methods.addProducts)
+  // await Contract.methods.addProducts(
+  //     _uid,
+  //     productName,
+  //     productPrice,
+  //     quantity,
+  //     _owner,
+  //     accounts[0],
+  //     warrantyPeriod,
+  //     false,
+  //     20,
+  //     80,
+  //     "Product Shipped By Manufacturer"
+  //   ).send({ from:accounts[0]}).then((data)=>console.log(data)).catch(err=>console.log(err));
   
 };
 
   const signIn = async () => {
-    const accounts = await provider.eth.requestAccounts();
-    const networkID = await provider.eth.net.getId();
-  
-      let contract = new provider.eth.Contract(ABI, CONTRACT_ADDRESS);
-      console.log(contract);
-     
-   
-
+    const accounts = await web3Provider.eth.requestAccounts();
+    console.log(accounts)
     getRole(accounts[0]);
   };
 
@@ -185,11 +142,10 @@ const addProductService = async (payload) => {
 
 
 
-
   return (
     <>
       <AUTH_CONTEXT.Provider
-        value={{ signIn, signOut, addRole, updateRoleData, loading ,addProductService}}
+        value={{ signIn, signOut,loading}}
       >
         {children}
       </AUTH_CONTEXT.Provider>

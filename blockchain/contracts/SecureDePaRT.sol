@@ -161,7 +161,7 @@ contract SecureDePaRT {
     bool returnStatus,string memory pointName) public isManufacturer {
         products[_uid].history.push(Structure.History(_state,latitude,longitude,time,returnStatus,pointName));
     }
-
+    //--------------------------------------------- return status add -------------
     //function to update product history 
     function updateProductHistory(string memory _uid,Structure.State _state,uint256 latitude,
     uint256 longitude,uint256 time,string memory pointName) 
@@ -219,11 +219,11 @@ contract SecureDePaRT {
       hist.returnStatus= true;
       hist.state= Structure.State.PackageDamgedAndReturnInitiated;
       products[_uid].history.push(hist);
-
-
     }
+    
 
-
-
-
+    //get products 
+    function getProducts(string memory _uid) public view returns(Structure.Product memory){
+      return products[_uid];
+    }
 }

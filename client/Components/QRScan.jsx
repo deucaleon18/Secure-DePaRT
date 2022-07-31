@@ -1,13 +1,13 @@
 
 import React, {useState} from 'react'
-import QrReader from 'react-qr-scanner'
+import {QrReader} from 'react-qr-reader'
 // import axios from 'axios'
 
 
-function QRScanner() {
+function QRScanner({setData}) {
     
 
-    const [qrscan, setQrscan] = useState('No result');
+   
     const [delayVar,setDelayVar]=useState(2000)
 
     const handleScan = async(data) => {
@@ -35,26 +35,20 @@ function QRScanner() {
     }
     
     return (
-      <div> 
-        <center>
-            <span>Track your Product</span>
-            <div style={{marginTop:30}}>
-                <QrReader
-                    delay={delayVar}
-                    onError={handleError}
-                    onScan={handleScan}
-                    style={{ height: 240, width: 320 }}
-                />
-            </div>
-            </center>
+      <div>
+        <QrReader
+          onResult={(result, error) => {
+            if (!!result) {
+              setData(result?.text);
+              console.log(result)
+            }
 
-            <textarea
-                style={{fontSize:18, width:320, height:100, marginTop:100}}
-                rows={4}
-                defaultValue={qrscan}
-                value={qrscan}
-            />
-
+            if (!!error) {
+              console.info(error);
+            }
+          }}
+          style={{ width: "100%" }}
+        />
       </div>
     );
   }

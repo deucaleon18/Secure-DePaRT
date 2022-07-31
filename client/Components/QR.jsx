@@ -3,7 +3,7 @@ import QRcode from 'qrcode.react'
 
 
 
-const QR = () => {
+const QR = ({payload,show}) => {
     
 
     const downloadQR = () => {
@@ -20,8 +20,8 @@ const QR = () => {
     };
 
     
-    const [qr, setQr] = useState('sdfvsfadfa');
-    const [Qrdiv,setQrdiv]=useState(true)
+    const [qr, setQr] = useState(payload || '');
+    const [Qrdiv,setQrdiv]=useState(show || false)
 
 
     // useEffect(()=>{
@@ -35,28 +35,28 @@ const QR = () => {
   return (
 
 
-    <div>
+    <>
         
         
-        <div>
+       
                 {
                 Qrdiv &&(
-                <div>
+                <div className='flex flex-col gap-8 w-full items-center justify-center'>
                 <QRcode 
                         id="myqr"
                         value={qr} 
                         size={320}
                         includeMargin={true}
                     /> 
-                    <button onClick={()=>{downloadQR()}}  className="btn btn-warning w-100" >Download QR</button>        
+                    <button onClick={()=>{downloadQR()}}  className="w-full hover:font-700  hover:bg-white hover:text-black h-8 border-2 border-white rounded text-white font-100" >Download QR</button>        
                     </div>
                     )
                  }
-            </div>
+          
 
 
 
-    </div>
+    </>
   )
 }
 

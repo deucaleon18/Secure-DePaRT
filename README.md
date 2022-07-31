@@ -56,7 +56,11 @@
  <br/>
 It is a DApp (Decentralized Application) coupled with Computer Vision (Convolutional Neural Network, a form of Deep Learning) to build customer trust. Computer vision ensures that the product is not damaged before or during transit. This system will contain the history of the product starting from the manufacturer and ending with the customer, all logged onto the blockchain network which is secure and transparent, avoiding the entry of counterfeit or damaged products.
 <br/>
+<br/>
+<br/>
+<center>
  <img src="client/public/Images/ss.png" width="800">
+ </center>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -71,6 +75,8 @@ It is a DApp (Decentralized Application) coupled with Computer Vision (Convoluti
 <p align="centre">  
     <img src="client/public/Images/flow1.png"> 
   <br/> 
+   <br/> 
+    <br/> 
      <img src="client/public/Images/flow2.png">  
 </p>
 
@@ -87,6 +93,20 @@ It is a DApp (Decentralized Application) coupled with Computer Vision (Convoluti
 <p>
  Hassle-free refunds and returns can be handled by scanning the product before return and comparing it with the initially scanned product before packaging, if they are deemed to be the same, the return process is initiated and the product history is continued on the blockchain network in the reverse order. This prevents manipulation or manual destruction of the product on the customer's part and helps in easy returns. 
 </p>
+
+### Machine Learning
+
+The model is trained using Tensorflow and Keras and is a Convolutional Neural Network (CNN) model comprising of 3 layers.The first layer performs the Image Extraction, the second layer performs the reduction of Image Dimensions and the final layer which is similar to an ANN(Aritificial Neural Network) and returns the final prediction. The final predicition when posted to a an API endpoint particular route returns true or false,based on the nature of the package or product(intact or damaged).
+<br/>
+<br/>
+
+
+ <img src="client/public/Images/ml.png"/>
+
+
+### Blockchain
+
+Solidity Smart Contracts have been used to assign roles, log products and change the history of the product in the entire project.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

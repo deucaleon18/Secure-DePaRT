@@ -35,7 +35,7 @@ export const Provider = ({ children }) => {
           router.push(`/delivery/${_address}`);
           break;
         case "4":
-          router.push(`/customer/${_address}`);
+          router.push(`/user/${_address}`);
           break;
         default:
           alert("No such role exists!");
@@ -77,6 +77,7 @@ export const Provider = ({ children }) => {
     <>
       <AUTH_CONTEXT.Provider value={{ signIn,user, signOut, user}}>
         {children}
+        
       </AUTH_CONTEXT.Provider>
     </>
   );

@@ -59,6 +59,8 @@ It is a DApp (Decentralized Application) coupled with Computer Vision (Convoluti
 <br/>
 <br/>
 
+<center>
+
 ![home](https://user-images.githubusercontent.com/77899467/182046167-c6fcc7a8-d66b-4ef4-9eab-f6cb7204aa81.PNG)
 ![Screenshot (325)](https://user-images.githubusercontent.com/77899467/182046095-7a0108d0-699d-43ef-adf0-9ac739355b48.png)
  ![Screenshot (322)](https://user-images.githubusercontent.com/77899467/182046093-13901fbe-25c8-4a8d-83d9-883ce3d71c70.png)
@@ -73,6 +75,8 @@ It is a DApp (Decentralized Application) coupled with Computer Vision (Convoluti
 ![Screenshot (333)](https://user-images.githubusercontent.com/77899467/182046102-6447197c-c419-4bf4-b9c9-2099f4f55336.png)
 ![Screenshot (335)](https://user-images.githubusercontent.com/77899467/182046104-becbf01c-fcf5-47e0-82df-c7f45940692b.png)
 ![Screenshot (344)](https://user-images.githubusercontent.com/77899467/182046113-136b6387-1044-44fc-8232-0f1dd144b419.png)
+
+</center>9
 
 
 

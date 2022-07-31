@@ -136,6 +136,7 @@ export default function Navbar() {
 
   React.useEffect(()=>{
     if(uid){
+      setScanner(false)
      initateReturn(uid)
     }
   },[uid])

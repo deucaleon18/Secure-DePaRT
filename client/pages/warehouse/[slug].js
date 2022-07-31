@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Hero from "../../Components/Hero";
 import SideModal from "../../Components/SideModal";
+import {toast,ToastContainer} from 'react-toastify'
 import Webcam from "react-webcam";
 import QRScanner from "../../Components/QRScan";
-import { checkInProduct, packageCheck } from "../../services/productServices";
-import { toast } from "react-toastify";
+import { checkInProduct, initiateReturn, packageCheck } from "../../services/productServices";
 const WareHouse = () => {
   const [show, setShow] = useState(false);
   const [product, setProduct] = useState();
@@ -12,10 +12,13 @@ const WareHouse = () => {
   const [image, setImage] = useState();
   const [status,setStatus]=useState();
   const checkIn = async (payload) => {
-    let res = await packageCheck({
-      name: "product_scan",
-      image: payload,
-    });
+    let res = await packageCheck(
+      {
+        name: "product_scan",
+        image: payload,
+      },
+      "packagePredict/"
+    );
     if (res!="False") {
       toast.success('Package Undamaged!')
       setStatus('Package in good condition. No need for returns!')
@@ -27,8 +30,12 @@ const WareHouse = () => {
 
       let r=await checkInProduct(response)
     }else{
-      toast.error('Package Damaged! Initiating Return.')
-      setStatus("Pacakge Damaged!Initiating return..")
+      
+      toast.error('Package Damaged! Initiating Return.');
+      setStatus("Pacakge Damaged!Initiating returns..");
+      let r=await initiateReturn({_uid:product})
+      setShow(false);
+      toast.success('Return Initiation Successfull!')
     }
   };
   const videoConstraints = {
@@ -88,6 +95,10 @@ const WareHouse = () => {
         </>
       )}
     </>}
+     {status && <div className="min-h-[500px] text-xl  text-rose-500 font-100 flex flex-col gap-4">
+     {status}
+      <div className="w-6 h-6 rounded-full border-2 border-indigo-500 border-t-2 border-t-black animate-spin"></div>
+      </div>}
     </>
   );
   return (
@@ -104,6 +115,7 @@ const WareHouse = () => {
         setShow={setShow}
         title={"Check-In Product"}
       />}
+      <ToastContainer/>
     </>
   );
 };

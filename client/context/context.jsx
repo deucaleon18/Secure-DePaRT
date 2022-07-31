@@ -14,7 +14,6 @@ export const web3Provider = new Web3(
 );
 export const Contract = new web3Provider.eth.Contract(ABI, CONTRACT_ADDRESS);
 export const Provider = ({ children }) => {
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [user,setUser]=useState();
   const getRole = async (_address) => {
@@ -76,7 +75,7 @@ export const Provider = ({ children }) => {
   
   return (
     <>
-      <AUTH_CONTEXT.Provider value={{ signIn,user, signOut, loading }}>
+      <AUTH_CONTEXT.Provider value={{ signIn,user, signOut, user}}>
         {children}
       </AUTH_CONTEXT.Provider>
     </>

@@ -1,4 +1,4 @@
-import { OWNER } from "../constants";
+import { OWNER, PACKAGE_URL } from "../constants";
 import { web3Provider, Contract } from "../context/context";
 import { BASE_URL } from "../constants";
 export const getRoles = async (_address) => {
@@ -48,19 +48,21 @@ export const initiateCustomerReturn=async (payload)=>{
     }
 }
 
-export const packageCheck=async(payload)=>{
+export const packageCheck=async(payload,url)=>{
     try {
     let body=JSON.stringify(payload)
-     let res=await fetch(BASE_URL,{
+     let res=await fetch(`${BASE_URL}${url}`,{
         method:"POST",
         body:body,
         headers:{
             "Content-Type":"application/json",
         }
      })
-     let result= await res.json();
+     ;
+     let result=await res.json();
      return result;
    } catch (error) {
      console.log(error);
    }
 }
+

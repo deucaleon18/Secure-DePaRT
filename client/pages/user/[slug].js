@@ -5,10 +5,10 @@ import SideModal from "../../Components/SideModal";
 import { getProducts } from "../../services/productServices";
 
 const Customer = () => {
-  const [qr, setQr] = useState(false);
+  const [scan, setScan] = useState(false);
   const [show, setShow] = useState(false);
   const [product, setProduct] = useState();
-
+  const [productHistory,setProductHistory]=useState();
   const trackOrderContent = (
     <>
       {!product && (
@@ -18,30 +18,41 @@ const Customer = () => {
               Please scan the qr code received with your order
             </div>
             <button
-              onClick={() => setQr(true)}
+              onClick={() => setScan(true)}
               className="bg-primary block text-white w-36 h-8 rounded font-100 "
             >
               Scan QR
             </button>
           </div>
-          {qr && <QRScanner data={product} setData={setProduct} />}
+        </>
+      )}
+      {scan && !product && <QRScanner data={product} setData={setProduct} />}
+      {productHistory && (
+        <>
+          <div className="flex gap-2">
+            <div className="text-green-500  re text-base font-700">
+              Current Status
+            </div>:
+            <div className="text-white text-base font-100">{productHistory}</div>
+          </div>
         </>
       )}
     </>
   );
 
-  useEffect(() => {
-    if(!show){
-      setQr(false)
-    }
-  }, [show])
-   
+  
+  const getData=async()=>{
+    let res=await getProducts(product);
+    const {history} =res;
+    setProductHistory(history[history.length-1].pointName)
+  }
+
+
   useEffect(()=>{
      if(product){
-      getProducts(product);
+     getData();
      }
   },[product])
-
   return (
     <>
       <Hero

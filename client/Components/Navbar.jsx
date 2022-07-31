@@ -1,11 +1,15 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 import AUTH_CONTEXT from "../context/context";
 import styles from "../styles/navbar.module.css";
 
 export default function Navbar() {
   const { signIn ,signOut,user} = useContext(AUTH_CONTEXT);
-
+  const router=useRouter();
+  const handleReturn=()=>{
+    
+  }
   return (
     <div className={`bg-black h-[80px] z-[100] `}>
       <div className={styles.headerContainer}>
@@ -14,7 +18,7 @@ export default function Navbar() {
             Secure<span>DePaRT</span>
           </div>
         </div>
-        <div className="flex gap-8 items-center justify-center">
+        <div className="flex gap-4 items-center justify-center">
           <div>
             {!user ? (
               <button
@@ -24,11 +28,19 @@ export default function Navbar() {
                 Connect Wallet
               </button>
             ) : (
-              <button onClick={signOut} className="w-36 text-primary hover:bg-primary hover:text-white text-base border-2 h-10 bg-transparent  font-100 border-primary rounded">
+              <button
+                onClick={signOut}
+                className="w-36 text-primary hover:bg-primary hover:text-white text-base border-2 h-10 bg-transparent  font-100 border-primary rounded"
+              >
                 Log out
               </button>
             )}
           </div>
+            <button
+              className="w-48 text-white hover:bg-white hover:text-black border-2  text-base  h-10 bg-transparent  font-100 rounded"
+            >
+              Return your product
+            </button>
 
           <div className="flex items-center justify-center">
             <a href="/">

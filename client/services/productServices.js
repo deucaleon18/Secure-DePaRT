@@ -32,7 +32,8 @@ export const initiateReturn = async (payload) => {
 
 export const getProducts=async(payload)=>{
    try {
-   await Contract.methods.getProducts(payload).call().then(data=>console.log(data)).catch(err=>console.log(err))
+   let res=await Contract.methods.getProducts(payload).call().then(data=>data).catch(err=>console.log(err));
+   return res;
    } catch (error) {
     console.log(error)
    }

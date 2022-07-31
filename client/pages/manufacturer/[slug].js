@@ -28,13 +28,16 @@ const Manufacturer = () => {
   const [status,setStatus]=useState();
   const handleAddProduct=async (e)=>{
       e.preventDefault();
-      
+      setStatus()
        try {
         setLoading(true)
-        let res = await packageCheck({
-          name: "product_scan",
-          image: image,
-        });
+        let res = await packageCheck(
+          {
+            name: "product_scan",
+            image: image,
+          },
+          "productPredict/"
+        );
         setLoading(false)
         if(res!='False'){
           toast.success('Product is in good condition.Initiating Shippment!')
@@ -51,8 +54,10 @@ const Manufacturer = () => {
           });
         }else{
           toast.error('Product is damaged!Cannot be added');
-          setStatus('Product is damaged.Cancelling Shippment...')
-          setShow(false);
+          setScan(false)
+          setProduct({});
+          setImage();
+          setShow(false)
         }
        } catch (error) {
          toast.error(error);
@@ -65,7 +70,7 @@ const Manufacturer = () => {
   }
   const addProduct = (
     <>
-      {!qr.show && !scan && (
+      {!qr.show && !scan && !status && (
         <div className="flex flex-col gap-4 ">
           <TextBox
             lable={"Owner's Address"}
@@ -144,7 +149,7 @@ const Manufacturer = () => {
                     const imageSrc = getScreenshot();
                     setImage(imageSrc);
 
-                    setScan(false);
+                    // setScan(false)
                     console.log(imageSrc);
                   }}
                   className="border-white border-2 p-2 text-white font-100 rounded-lg text-base hover:bg-white hover:text-black"

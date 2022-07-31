@@ -4,11 +4,12 @@ import { updateWareHouseData } from "./wareHouseServices";
 export const addRoles = async (_address, _role) => {
   try {
     const accounts = await web3Provider.eth.requestAccounts();
-    await Contract.methods
+    let res= await Contract.methods
       .addRole(_address, _role)
       .send({ from: accounts[0] })
-      .then((data) => console.log("ROLE : ", data))
-      .catch((err) => console.log(err.message));
+      .then((data) =>data)
+      .catch((err) => err.message);
+      return res;
   } catch (error) {
     console.log(error);
   }

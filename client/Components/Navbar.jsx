@@ -4,7 +4,7 @@ import AUTH_CONTEXT from "../context/context";
 import styles from "../styles/navbar.module.css";
 
 export default function Navbar() {
-  const { signIn ,signOut} = useContext(AUTH_CONTEXT);
+  const { signIn ,signOut,user} = useContext(AUTH_CONTEXT);
 
   return (
     <div className={`bg-black h-[80px] z-[100] `}>
@@ -16,15 +16,18 @@ export default function Navbar() {
         </div>
         <div className="flex gap-8 items-center justify-center">
           <div>
-            
+            {!user ? (
               <button
                 onClick={signIn}
                 className="w-36 text-primary hover:bg-primary hover:text-white text-base border-2 h-10 bg-transparent  font-100 border-primary rounded"
               >
                 Connect Wallet
               </button>
-            
-            
+            ) : (
+              <button className="w-36 text-primary hover:bg-primary hover:text-white text-base border-2 h-10 bg-transparent  font-100 border-primary rounded">
+                Log out
+              </button>
+            )}
           </div>
 
           <div className="flex items-center justify-center">

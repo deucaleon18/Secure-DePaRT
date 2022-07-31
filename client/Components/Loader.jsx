@@ -3,12 +3,9 @@ import ClipLoader from "react-spinners/ClipLoader";
 const Loader = () => {
   return (
     <>
-    <div className="w-screen z-[12121212] flex items-center justify-center h-screen fixed bg-gray-200/50">
-      <ClipLoader
-        color={"#000"}
-        size={150}
-        />
-        </div>
+      <div className="w-full fixed top-0 z-[12121212] flex items-center justify-center h-screen bg-gray-100/20">
+        <ClipLoader color={"#F0137D"} size={50} />
+      </div>
     </>
   );
 }

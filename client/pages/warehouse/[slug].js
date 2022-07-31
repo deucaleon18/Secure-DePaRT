@@ -1,19 +1,30 @@
-import React, { useState } from 'react'
-import Hero from '../../Components/Hero'
-import SideModal from '../../Components/SideModal';
+import React, { useState } from "react";
+import Hero from "../../Components/Hero";
+import SideModal from "../../Components/SideModal";
 import Webcam from "react-webcam";
-import QRScanner from '../../Components/QRScan';
+import QRScanner from "../../Components/QRScan";
+import { checkInProduct, packageCheck } from "../../services/productServices";
 const WareHouse = () => {
-  const [show,setShow]=useState(false);
-  const [product,setProduct]=useState()
-  const [scan,setScan]=useState(false)
-  const checkInProduct=()=>{
-     let payload={
-      _state:5,
-      _uid:product,
-      pointName:"WareHouse"
-     }
-  }
+  const [show, setShow] = useState(false);
+  const [product, setProduct] = useState();
+  const [scan, setScan] = useState(false);
+  const [image, setImage] = useState();
+  const [status,setStatus]=useState()
+  const checkIn = async (payload) => {
+    // call ML function
+    let res = await packageCheck({
+      name: "product_scan",
+      image: payload,
+    });
+    if (res) {
+      let response = {
+        _state: 5,
+        _uid: product,
+        pointName: "WareHouse",
+      };
+      checkInProduct(response)
+    }
+  };
   const videoConstraints = {
     width: 1280,
     height: 720,
@@ -21,17 +32,23 @@ const WareHouse = () => {
   };
   const checkInContent = (
     <>
-      {product ? (
+      {!product && (
         <>
           {scan && <QRScanner setData={setProduct} />}
-          <button
-            onClick={() => setScan(true)}
-            className="w-36 h-10 border-2 border-white rounded text-white"
-          >
-            Product ID
-          </button>
+          <div className="flex flex-col items-center h-full gap-2">
+            <div className="text-gray-400 text-center text-base font-100 ">
+              Log your product by scanning the QR code you received, to check for returns
+            </div>
+            <button
+              onClick={() => setScan(true)}
+              className="w-36 h-10 font-700 border-2 border-white hover:bg-white hover:text-black rounded text-white"
+            >
+              Log In Product
+            </button>
+          </div>
         </>
-      ) : (
+      )}
+      {product && (
         <>
           <div className="flex flex-col gap-4">
             <Webcam
@@ -40,22 +57,26 @@ const WareHouse = () => {
               screenshotFormat="image/jpeg"
               width={1280}
               videoConstraints={videoConstraints}
+              mirrored
             >
               {({ getScreenshot }) => (
                 <button
                   onClick={() => {
                     const imageSrc = getScreenshot();
+                    setImage(imageSrc);
+                    
+                    setScan(false);
                     console.log(imageSrc);
                   }}
-                  className="border-white border-2 p-2 text-white font-100 rounded-lg text-base"
+                  className="border-white border-2 p-2 text-white font-100 rounded-lg text-base hover:bg-white hover:text-black"
                 >
                   Capture photo
                 </button>
               )}
             </Webcam>
-            <button className="bg-primary p-2 text-white font-100 rounded-lg text-base">
-              Log Product
-            </button>
+          <button disabled={image?false:true} onClick={()=>checkInProduct(image)}  className="w-full h-10 font-100 disabled:border-gray-400 disabled:text-gray-400 disabled:hover:bg-transparent border-primary border-2 text-primary hover:bg-primary hover:text-white rounded">
+            Update Product Status
+          </button>
           </div>
         </>
       )}
@@ -67,11 +88,16 @@ const WareHouse = () => {
         img={"warehouse.png"}
         des={"You have successfully logged in through a wareHouse account"}
         lable={"Check in product"}
-        action={()=>setShow(true)}
+        action={() => setShow(true)}
       />
-      <SideModal content={checkInContent} show={show} setShow={setShow} title={"Check-In Product"}/>
+      {show && <SideModal
+        content={checkInContent}
+        show={show}
+        setShow={setShow}
+        title={"Check-In Product"}
+      />}
     </>
   );
-}
+};
 
-export default WareHouse
+export default WareHouse;

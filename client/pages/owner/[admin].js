@@ -2,13 +2,13 @@ import { useRouter } from 'next/router';
 import React, { useContext } from 'react'
 import { toast } from 'react-toastify';
 import Hero from "../../Components/Hero";
-// import Loader from '../../Components/Loader';
+import Loader from '../../Components/Loader';
 import SideModal from "../../Components/SideModal";
 import TextBox, { CustomSelect } from "../../Components/TextBox";
 import { OWNER } from '../../constants';
-import AUTH_CONTEXT from '../../context/context';
 import { addRoles } from '../../services/adminServices';
 import {generateUID} from '../../utils/services'
+import {ToastContainer} from 'react-toastify'
 import { updateRoledata } from '../../services/adminServices';
 const ROLES=[
   "Manufacturer",
@@ -19,8 +19,8 @@ const ROLES=[
 const Admin = () => {
   const [show,setShow]=React.useState(false);
   const [roles,setRoles]=React.useState({});
+  const  [loading,setLoading]=React.useState(false)
   const router=useRouter();
-  const {loading}=useContext(AUTH_CONTEXT)
   const handleSubmit=(e)=>{
     e.preventDefault();
     let _uid=generateUID(roles);
@@ -97,9 +97,13 @@ const Admin = () => {
       </div>
     </>
   );
-  const validate=()=>{
+  const validate=async()=>{
     if(roles._address && roles._role){
-      addRoles(roles._address,roles._role);
+      setLoading(true)
+      let res=await addRoles(roles._address,roles._role);
+      console.log(res,"this is res")
+      setLoading(false);
+      toast.success('Role added successfully')
       setShow(true);
 
     }else{
@@ -148,7 +152,8 @@ const Admin = () => {
       {show && (
         <SideModal content={addProduct} setShow={setShow} title={"Add Role"} />
       )}
-      {/* {loading && <Loader/>} */}
+      {loading && <Loader/>}
+      <ToastContainer/>
     </>
   );
 }

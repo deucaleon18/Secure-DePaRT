@@ -1,5 +1,6 @@
 import { OWNER } from "../constants";
 import { web3Provider, Contract } from "../context/context";
+import { BASE_URL } from "../constants";
 export const getRoles = async (_address) => {
   if (_address == OWNER) {
   }
@@ -31,8 +32,6 @@ export const initiateReturn = async (payload) => {
 
 export const getProducts=async(payload)=>{
    try {
-    const accounts = await web3Provider.eth.getAccounts();
-    
    await Contract.methods.getProducts(payload).call().then(data=>console.log(data)).catch(err=>console.log(err))
    } catch (error) {
     console.log(error)
@@ -47,4 +46,22 @@ export const initiateCustomerReturn=async (payload)=>{
     } catch (error) {
         console.log(error)
     }
+}
+
+export const packageCheck=async(payload)=>{
+    return true;
+   try {
+    let body=JSON.stringify(payload)
+     let res=await fetch(BASE_URL,{
+        method:"POST",
+        body:body,
+        headers:{
+            "Content-Type":"application/json",
+        }
+     })
+     let result= await res.json();
+     return result;
+   } catch (error) {
+     console.log(error);
+   }
 }

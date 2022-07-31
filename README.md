@@ -58,9 +58,23 @@ It is a DApp (Decentralized Application) coupled with Computer Vision (Convoluti
 <br/>
 <br/>
 <br/>
-<center>
- <img src="client/public/Images/ss.png" width="800">
- </center>
+
+![home](https://user-images.githubusercontent.com/77899467/182046167-c6fcc7a8-d66b-4ef4-9eab-f6cb7204aa81.PNG)
+![Screenshot (325)](https://user-images.githubusercontent.com/77899467/182046095-7a0108d0-699d-43ef-adf0-9ac739355b48.png)
+ ![Screenshot (322)](https://user-images.githubusercontent.com/77899467/182046093-13901fbe-25c8-4a8d-83d9-883ce3d71c70.png)
+ ![Screenshot (339)](https://user-images.githubusercontent.com/77899467/182046107-05ab8723-c651-4e86-9acd-a0ed28fe4b09.png)
+ ![Screenshot (345)](https://user-images.githubusercontent.com/77899467/182046114-6f4d951f-5aab-4a77-8476-ba50a6994e64.png)
+ ![Screenshot (341)](https://user-images.githubusercontent.com/77899467/182046109-bec28d69-2977-4bea-9288-b778960c7ed2.png)
+ ![Screenshot (343)](https://user-images.githubusercontent.com/77899467/182046112-67a6f2c6-7806-4e5f-bbe2-c3c3b6c46da0.png)
+![Screenshot (328)](https://user-images.githubusercontent.com/77899467/182046097-4a7aced8-9ea7-4908-9395-040a7afedf16.png)
+![Screenshot (340)](https://user-images.githubusercontent.com/77899467/182046108-e602b384-ad1f-4e99-8a80-3f00a50871c0.png)
+![Screenshot (329)](https://user-images.githubusercontent.com/77899467/182046099-19bc2a1a-65fb-411f-8448-da9c1a73be11.png)
+![Screenshot (334)](https://user-images.githubusercontent.com/77899467/182046103-b5af4f0a-c0de-4f89-bc86-11f1c470bb01.png)
+![Screenshot (333)](https://user-images.githubusercontent.com/77899467/182046102-6447197c-c419-4bf4-b9c9-2099f4f55336.png)
+![Screenshot (335)](https://user-images.githubusercontent.com/77899467/182046104-becbf01c-fcf5-47e0-82df-c7f45940692b.png)
+![Screenshot (344)](https://user-images.githubusercontent.com/77899467/182046113-136b6387-1044-44fc-8232-0f1dd144b419.png)
+
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

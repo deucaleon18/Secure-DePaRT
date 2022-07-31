@@ -56,7 +56,11 @@
  <br/>
 It is a DApp (Decentralized Application) coupled with Computer Vision (Convolutional Neural Network, a form of Deep Learning) to build customer trust. Computer vision ensures that the product is not damaged before or during transit. This system will contain the history of the product starting from the manufacturer and ending with the customer, all logged onto the blockchain network which is secure and transparent, avoiding the entry of counterfeit or damaged products.
 <br/>
+<br/>
+<br/>
+<center>
  <img src="client/public/Images/ss.png" width="800">
+ </center>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -71,6 +75,8 @@ It is a DApp (Decentralized Application) coupled with Computer Vision (Convoluti
 <p align="centre">  
     <img src="client/public/Images/flow1.png"> 
   <br/> 
+   <br/> 
+    <br/> 
      <img src="client/public/Images/flow2.png">  
 </p>
 
@@ -88,14 +94,33 @@ It is a DApp (Decentralized Application) coupled with Computer Vision (Convoluti
  Hassle-free refunds and returns can be handled by scanning the product before return and comparing it with the initially scanned product before packaging, if they are deemed to be the same, the return process is initiated and the product history is continued on the blockchain network in the reverse order. This prevents manipulation or manual destruction of the product on the customer's part and helps in easy returns. 
 </p>
 
+### Machine Learning
+
+The model is trained using Tensorflow and Keras and is a Convolutional Neural Network (CNN) model comprising of 3 layers.The first layer performs the Image Extraction, the second layer performs the reduction of Image Dimensions and the final layer which is similar to an ANN(Aritificial Neural Network) and returns the final prediction. The final predicition when posted to a an API endpoint particular route returns true or false,based on the nature of the package or product(intact or damaged).
+<br/>
+<br/>
+
+
+ <img src="client/public/Images/ml.png"/>
+
+
+### Blockchain
+
+Solidity Smart Contracts have been used to assign roles, log products and change the history of the product in the entire project.
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Installation and Setup
 Prerequisites : `yarn, git, docker(optional)`
 
-Clone the repository 
+### Clone the repository 
 ```
-git clone https://github.com/deucaleon18/Secure-DePaRT.git && cd blockchain
+git clone https://github.com/deucaleon18/Secure-DePaRT.git
+```
+### Setup `blockchain`
+Change the directory to backend
+```
+cd blockchain
 ```
 Install dependencies
 ```
@@ -110,12 +135,12 @@ Open a second terminal to deploy the smart contracts
 yarn deploy-local
 ```
 
-
+### Setup `client`
 Open a third terminal and enter the client folder
 ```
 cd client
 ```
-Install all packages in the package.json file
+Install dependencies
 ```
 yarn
 ```
@@ -126,19 +151,22 @@ yarn dev
 The app gets hosted by default at port 3000.
 
 
-### Backend Setup :
-
- -  Change the directory by typing `cd backend` in the terminal and then follow the steps mentioned inside the backend folder.
+### Setup `backend`
+Change the directory by typing `cd backend` in the terminal and then follow the steps mentioned inside the [backend](backend) folder.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## License
 This project uses an [MIT](https://opensource.org/licenses/MIT) license.
-## Documentation to help with Solidity
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## More information
+- Documentation to help with Solidity
 https://docs.soliditylang.org/en/v0.8.4/
-## Documentation to help with React
+- Documentation to help with React
 https://reactjs.org/docs/getting-started.html
-## Documentation to help with Hardhat
+- Documentation to help with Hardhat
 https://hardhat.org/docs
-## Documentation to help with Web3.js
+- Documentation to help with Web3.js
 https://web3js.readthedocs.io/en/v1.7.4/
+<p align="right">(<a href="#top">back to top</a>)</p>

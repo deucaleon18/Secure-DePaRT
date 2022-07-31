@@ -176,7 +176,7 @@ export default function Navbar() {
                 Return your product
               </button>
             )}
-
+          </div>
             <div className="flex items-center justify-center">
               <a href="/">
                 <Image
@@ -190,7 +190,7 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-      </div>
+      
       {show && <SideModal content={returnProductModal} setShow={setShow} title={"Product Returns"} />}
       <ToastContainer/>
     </>

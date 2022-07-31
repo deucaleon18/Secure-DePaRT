@@ -12,9 +12,9 @@ export const checkInProduct = async (payload) => {
   try {
     const accounts = await web3Provider.eth.getAccounts();
     const { _state, pointName, _uid } = payload;
-    await Contract.methods
+    let res=await Contract.methods
       .updateProductHistory(_uid, _state, 0, 0, 10, pointName)
-      .send({ from: accounts[0] });
+      .send({ from: accounts[0] }).then(data=>data)
   } catch (error) {
     console.log(error);
   }
@@ -49,8 +49,7 @@ export const initiateCustomerReturn=async (payload)=>{
 }
 
 export const packageCheck=async(payload)=>{
-    return true;
-   try {
+    try {
     let body=JSON.stringify(payload)
      let res=await fetch(BASE_URL,{
         method:"POST",

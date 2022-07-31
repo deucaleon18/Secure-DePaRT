@@ -62,7 +62,8 @@ export const Provider = ({ children }) => {
   };
 
   const signOut = () => {
-    localStorage.removeItem('user')
+    localStorage.removeItem('user');
+    setUser()
     router.replace("/");
   };
 

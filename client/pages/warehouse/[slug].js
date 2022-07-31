@@ -4,25 +4,31 @@ import SideModal from "../../Components/SideModal";
 import Webcam from "react-webcam";
 import QRScanner from "../../Components/QRScan";
 import { checkInProduct, packageCheck } from "../../services/productServices";
+import { toast } from "react-toastify";
 const WareHouse = () => {
   const [show, setShow] = useState(false);
   const [product, setProduct] = useState();
   const [scan, setScan] = useState(false);
   const [image, setImage] = useState();
-  const [status,setStatus]=useState()
+  const [status,setStatus]=useState();
   const checkIn = async (payload) => {
-    // call ML function
     let res = await packageCheck({
       name: "product_scan",
       image: payload,
     });
-    if (res) {
+    if (res!="False") {
+      toast.success('Package Undamaged!')
+      setStatus('Package in good condition. No need for returns!')
       let response = {
-        _state: 5,
+        _state: 6,
         _uid: product,
         pointName: "WareHouse",
       };
-      checkInProduct(response)
+
+      let r=await checkInProduct(response)
+    }else{
+      toast.error('Package Damaged! Initiating Return.')
+      setStatus("Pacakge Damaged!Initiating return..")
     }
   };
   const videoConstraints = {
@@ -32,6 +38,7 @@ const WareHouse = () => {
   };
   const checkInContent = (
     <>
+    {!status && <>
       {!product && (
         <>
           {scan && <QRScanner setData={setProduct} />}
@@ -74,12 +81,13 @@ const WareHouse = () => {
                 </button>
               )}
             </Webcam>
-          <button disabled={image?false:true} onClick={()=>checkInProduct(image)}  className="w-full h-10 font-100 disabled:border-gray-400 disabled:text-gray-400 disabled:hover:bg-transparent border-primary border-2 text-primary hover:bg-primary hover:text-white rounded">
+          <button disabled={image?false:true} onClick={()=>checkIn(image)}  className="w-full h-10 font-100 disabled:border-gray-400 disabled:text-gray-400 disabled:hover:bg-transparent border-primary border-2 text-primary hover:bg-primary hover:text-white rounded">
             Update Product Status
           </button>
           </div>
         </>
       )}
+    </>}
     </>
   );
   return (

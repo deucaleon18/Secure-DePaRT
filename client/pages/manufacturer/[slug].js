@@ -8,7 +8,7 @@ import AUTH_CONTEXT from "../../context/context";
 import { addProductServices } from "../../services/manufacturerServices";
 
 const WARRANTY_PERIOD=[
-  "1 Month","2 Months","6 Months","1 Year","5 Year"
+  "1","2","6"
 ]
 
 const Manufacturer = () => {
